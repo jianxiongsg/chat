@@ -14,6 +14,7 @@ import {
 } from "@fortaine/fetch-event-source";
 import { prettyObject } from "@/app/utils/format";
 import { getClientConfig } from "@/app/config/client";
+import { onSubmit } from "../chatDemo";
 
 export interface OpenAIListModelResponse {
   object: string;
@@ -64,7 +65,7 @@ export class ChatGPTApi implements LLMApi {
 
     const requestPayload = {
       messages,
-      stream: options.config.stream,
+      stream: true, //options.config.stream,
       model: modelConfig.model,
       temperature: modelConfig.temperature,
       presence_penalty: modelConfig.presence_penalty,
@@ -86,7 +87,6 @@ export class ChatGPTApi implements LLMApi {
         signal: controller.signal,
         headers: getHeaders(),
       };
-
       // make a fetch request
       const requestTimeoutId = setTimeout(
         () => controller.abort(),
@@ -105,8 +105,9 @@ export class ChatGPTApi implements LLMApi {
         };
 
         controller.signal.onabort = finish;
-
-        fetchEventSource(chatPath, {
+        //'https://api.openai.com' +
+        fetchEventSource("http://127.0.0.1:7001/chat/", {
+          // fetchEventSource('https://chat-gpt-web-weld-eight.vercel.app/api/openai/v1/chat/completions', {
           ...chatPayload,
           async onopen(res) {
             clearTimeout(requestTimeoutId);
