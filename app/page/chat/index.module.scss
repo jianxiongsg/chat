@@ -83,70 +83,6 @@
     }
 }
 
-.clear-context {
-    margin: 20px 0 0 0;
-    padding: 4px 0;
-
-    border-top: var(--border-in-light);
-    border-bottom: var(--border-in-light);
-    box-shadow: var(--card-shadow) inset;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: var(--black);
-    transition: all ease 0.3s;
-    cursor: pointer;
-    overflow: hidden;
-    position: relative;
-    font-size: 12px;
-
-    animation: slide-in ease 0.3s;
-
-    $linear: linear-gradient(to right,
-        rgba(0, 0, 0, 0),
-        rgba(0, 0, 0, 1),
-        rgba(0, 0, 0, 0));
-    mask-image: $linear;
-
-    @mixin show {
-        transform: translateY(0);
-        position: relative;
-        transition: all ease 0.3s;
-        opacity: 1;
-    }
-
-    @mixin hide {
-        transform: translateY(-50%);
-        position: absolute;
-        transition: all ease 0.1s;
-        opacity: 0;
-    }
-
-    &-tips {
-        @include show;
-        opacity: 0.5;
-    }
-
-    &-revert-btn {
-        color: var(--primary);
-        @include hide;
-    }
-
-    &:hover {
-        opacity: 1;
-        border-color: var(--primary);
-
-        .clear-context-tips {
-            @include hide;
-        }
-
-        .clear-context-revert-btn {
-            @include show;
-        }
-    }
-}
 
 .chat {
     display: flex;
@@ -327,59 +263,7 @@
     }
 }
 
-@mixin single-line {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
 
-.prompt-hints {
-    min-height: 20px;
-    width: 100%;
-    max-height: 50vh;
-    overflow: auto;
-    display: flex;
-    flex-direction: column-reverse;
-
-    background-color: var(--white);
-    border: var(--border-in-light);
-    border-radius: 10px;
-    margin-bottom: 10px;
-    box-shadow: var(--shadow);
-
-    .prompt-hint {
-        color: var(--black);
-        padding: 6px 10px;
-        animation: slide-in ease 0.3s;
-        cursor: pointer;
-        transition: all ease 0.3s;
-        border: transparent 1px solid;
-        margin: 4px;
-        border-radius: 8px;
-
-        &:not(:last-child) {
-            margin-top: 0;
-        }
-
-        .hint-title {
-            font-size: 12px;
-            font-weight: bolder;
-
-            @include single-line();
-        }
-
-        .hint-content {
-            font-size: 12px;
-
-            @include single-line();
-        }
-
-        &-selected,
-        &:hover {
-            border-color: var(--primary);
-        }
-    }
-}
 
 .chat-input-panel-inner {
     display: flex;
