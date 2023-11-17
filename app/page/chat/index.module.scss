@@ -54,34 +54,6 @@
     }
 }
 
-.prompt-toast {
-    position: absolute;
-    bottom: -50px;
-    z-index: 999;
-    display: flex;
-    justify-content: center;
-    width: calc(100% - 40px);
-
-    .prompt-toast-inner {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 12px;
-        background-color: var(--white);
-        color: var(--black);
-
-        border: var(--border-in-light);
-        box-shadow: var(--card-shadow);
-        padding: 10px 20px;
-        border-radius: 100px;
-
-        animation: slide-in-from-top ease 0.3s;
-
-        .prompt-toast-content {
-            margin-left: 10px;
-        }
-    }
-}
 
 .section-title {
     font-size: 12px;
