@@ -2,7 +2,7 @@ import { FETCH_COMMIT_URL, FETCH_TAG_URL, StoreKey } from "../constant";
 import { api } from "../client/api";
 import { getClientConfig } from "../config/client";
 import { createPersistStore } from "../utils/store";
-import ChatGptIcon from "../icons/chatgpt.png";
+import ChatGptIcon from "../components/Icons/chatgpt.png";
 import Locale from "../locales";
 
 const ONE_MINUTE = 60 * 1000;

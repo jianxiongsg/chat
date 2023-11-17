@@ -8,32 +8,32 @@ import React, {
   Fragment,
 } from "react";
 
-import SendWhiteIcon from "../icons/send-white.svg";
-import BrainIcon from "../icons/brain.svg";
-import RenameIcon from "../icons/rename.svg";
-import ExportIcon from "../icons/share.svg";
-import ReturnIcon from "../icons/return.svg";
-import CopyIcon from "../icons/copy.svg";
-import LoadingIcon from "../icons/three-dots.svg";
-import PromptIcon from "../icons/prompt.svg";
-import MaskIcon from "../icons/mask.svg";
-import MaxIcon from "../icons/max.svg";
-import MinIcon from "../icons/min.svg";
-import ResetIcon from "../icons/reload.svg";
-import BreakIcon from "../icons/break.svg";
-import SettingsIcon from "../icons/chat-settings.svg";
-import DeleteIcon from "../icons/clear.svg";
-import PinIcon from "../icons/pin.svg";
-import EditIcon from "../icons/rename.svg";
-import ConfirmIcon from "../icons/confirm.svg";
-import CancelIcon from "../icons/cancel.svg";
+import SendWhiteIcon from "../../components/Icons/send-white.svg";
+import BrainIcon from "../../components/Icons/brain.svg";
+import RenameIcon from "../../components/Icons/rename.svg";
+import ExportIcon from "../../components/Icons/share.svg";
+import ReturnIcon from "../../components/Icons/return.svg";
+import CopyIcon from "../../components/Icons/copy.svg";
+import LoadingIcon from "../../components/Icons/three-dots.svg";
+import PromptIcon from "../../components/Icons/prompt.svg";
+import MaskIcon from "../../components/Icons/mask.svg";
+import MaxIcon from "../../components/Icons/max.svg";
+import MinIcon from "../../components/Icons/min.svg";
+import ResetIcon from "../../components/Icons/reload.svg";
+import BreakIcon from "../../components/Icons/break.svg";
+import SettingsIcon from "../../components/Icons/chat-settings.svg";
+import DeleteIcon from "../../components/Icons/clear.svg";
+import PinIcon from "../../components/Icons/pin.svg";
+import EditIcon from "../../components/Icons/rename.svg";
+import ConfirmIcon from "../../components/Icons/confirm.svg";
+import CancelIcon from "../../components/Icons/cancel.svg";
 
-import LightIcon from "../icons/light.svg";
-import DarkIcon from "../icons/dark.svg";
-import AutoIcon from "../icons/auto.svg";
-import BottomIcon from "../icons/bottom.svg";
-import StopIcon from "../icons/pause.svg";
-import RobotIcon from "../icons/robot.svg";
+import LightIcon from "../../components/Icons/light.svg";
+import DarkIcon from "../../components/Icons/dark.svg";
+import AutoIcon from "../../components/Icons/auto.svg";
+import BottomIcon from "../../components/Icons/bottom.svg";
+import StopIcon from "../../components/Icons/pause.svg";
+import RobotIcon from "../../components/Icons/robot.svg";
 
 import {
   ChatMessage,
@@ -46,23 +46,23 @@ import {
   useAppConfig,
   DEFAULT_TOPIC,
   ModelType,
-} from "../store";
+} from "../../store";
 
 import {
   copyToClipboard,
   selectOrCopy,
   autoGrowTextArea,
   useMobileScreen,
-} from "../utils";
+} from "../../utils";
 
 import dynamic from "next/dynamic";
 
-import { ChatControllerPool } from "../client/controller";
-import { Prompt, usePromptStore } from "../store/prompt";
-import Locale from "../locales";
+import { ChatControllerPool } from "../../client/controller";
+import { Prompt, usePromptStore } from "../../store/prompt";
+import Locale from "../../locales";
 
-import { IconButton } from "./button";
-import styles from "./chat.module.scss";
+import { IconButton } from "../../components/Button/index";
+import styles from "./index.module.scss";
 
 import {
   List,
@@ -72,7 +72,7 @@ import {
   showConfirm,
   showPrompt,
   showToast,
-} from "./ui-lib";
+} from "../../components/UiLib";
 import { useNavigate } from "react-router-dom";
 import {
   CHAT_PAGE_SIZE,
@@ -80,20 +80,25 @@ import {
   Path,
   REQUEST_TIMEOUT_MS,
   UNFINISHED_INPUT,
-} from "../constant";
-import { Avatar } from "./emoji";
-import { ContextPrompts, MaskAvatar, MaskConfig } from "./mask";
-import { useMaskStore } from "../store/mask";
-import { ChatCommandPrefix, useChatCommand, useCommand } from "../command";
-import { prettyObject } from "../utils/format";
-import { ExportMessageModal } from "./exporter";
-import { getClientConfig } from "../config/client";
-import { onSubmit } from "../client/chatDemo";
+} from "../../constant";
+import {
+  ContextPrompts,
+  MaskAvatar,
+  MaskConfig,
+} from "../../components/Mask/index";
+import { useMaskStore } from "../../store/mask";
+import { ChatCommandPrefix, useChatCommand, useCommand } from "../../command";
+import { prettyObject } from "../../utils/format";
+import { ExportMessageModal } from "../../components/Exporter/index";
+import { getClientConfig } from "../../config/client";
+import { Avatar } from "@/app/components/Emoji/index";
 
-const Markdown = dynamic(async () => (await import("./markdown")).Markdown, {
-  loading: () => <LoadingIcon />,
-});
-console.log("............styles", styles);
+const Markdown = dynamic(
+  async () => (await import("../../components/Markdown/index")).Markdown,
+  {
+    loading: () => <LoadingIcon />,
+  },
+);
 export function SessionConfigModel(props: { onClose: () => void }) {
   const chatStore = useChatStore();
   const session = chatStore.currentSession();
@@ -1175,7 +1180,9 @@ function _Chat() {
                             <ChatAction
                               text={Locale.Chat.Actions.Stop}
                               icon={<StopIcon />}
-                              onClick={() => onUserStop(message.id ?? i)}
+                              onClick={() =>
+                                onUserStop(String(message.id ?? i))
+                              }
                             />
                           ) : (
                             <>
@@ -1188,7 +1195,9 @@ function _Chat() {
                               <ChatAction
                                 text={Locale.Chat.Actions.Delete}
                                 icon={<DeleteIcon />}
-                                onClick={() => onDelete(message.id ?? i)}
+                                onClick={() =>
+                                  onDelete(String(message.id ?? i))
+                                }
                               />
 
                               <ChatAction

@@ -1,7 +1,7 @@
 import { trimTopic } from "../utils";
 
 import Locale, { getLang } from "../locales";
-import { showToast } from "../components/ui-lib";
+import { showToast } from "../components/UiLib";
 import { ModelConfig, ModelType, useAppConfig } from "./config";
 import { createEmptyMask, Mask } from "./mask";
 import {
@@ -365,7 +365,7 @@ export const useChatStore = createPersistStore(
             });
             ChatControllerPool.remove(
               session.id,
-              botMessage.id ?? messageIndex,
+              String(botMessage.id ?? messageIndex),
             );
 
             console.error("[Chat] failed ", error);
@@ -374,7 +374,7 @@ export const useChatStore = createPersistStore(
             // collect controller for stop/retry
             ChatControllerPool.addController(
               session.id,
-              botMessage.id ?? messageIndex,
+              String(botMessage.id ?? messageIndex),
               controller,
             );
           },

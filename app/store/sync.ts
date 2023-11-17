@@ -1,5 +1,4 @@
 import { getClientConfig } from "../config/client";
-import { Updater } from "../typing";
 import { ApiPath, STORAGE_KEY, StoreKey } from "../constant";
 import { createPersistStore } from "../utils/store";
 import {
@@ -10,7 +9,7 @@ import {
   setLocalAppState,
 } from "../utils/sync";
 import { downloadAs, readFromFile } from "../utils";
-import { showToast } from "../components/ui-lib";
+import { showToast } from "../components/UiLib";
 import Locale from "../locales";
 import { createSyncClient, ProviderType } from "../utils/cloud";
 import { corsPath } from "../utils/cors";

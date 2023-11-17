@@ -6,14 +6,14 @@ import { useState, useEffect } from "react";
 
 import styles from "./home.module.scss";
 
-import BotIcon from "../icons/bot.svg";
-import LoadingIcon from "../icons/three-dots.svg";
+import BotIcon from "../components/Icons/bot.svg";
+import LoadingIcon from "../components/Icons/three-dots.svg";
 
 import { getCSSVar, useMobileScreen } from "../utils";
 
 import dynamic from "next/dynamic";
 import { Path, SlotID } from "../constant";
-import { ErrorBoundary } from "./error";
+import { ErrorBoundary } from "../components/Error/index";
 
 import { getISOLang, getLang } from "../locales";
 
@@ -23,7 +23,7 @@ import {
   Route,
   useLocation,
 } from "react-router-dom";
-import { SideBar } from "./sidebar";
+import { SideBar } from "../components/SideBar/index";
 import { useAppConfig } from "../store/config";
 import { AuthPage } from "./auth";
 import { getClientConfig } from "../config/client";
@@ -39,21 +39,24 @@ export function Loading(props: { noLogo?: boolean }) {
   );
 }
 
-const Settings = dynamic(async () => (await import("./settings")).Settings, {
-  loading: () => <Loading noLogo />,
-});
+const Settings = dynamic(
+  async () => (await import("./settings/index")).Settings,
+  {
+    loading: () => <Loading noLogo />,
+  },
+);
 
 const Chat = dynamic(async () => (await import("../page/chat")).Chat, {
   loading: () => <Loading noLogo />,
 });
 
-const NewChat = dynamic(async () => (await import("./new-chat")).NewChat, {
-  loading: () => <Loading noLogo />,
-});
+// const NewChat = dynamic(async () => (await import("./new-chat")).NewChat, {
+//     loading: () => <Loading noLogo />,
+// });
 
-const MaskPage = dynamic(async () => (await import("./mask")).MaskPage, {
-  loading: () => <Loading noLogo />,
-});
+// const MaskPage = dynamic(async () => (await import("./mask")).MaskPage, {
+//     loading: () => <Loading noLogo />,
+// });
 
 export function useSwitchTheme() {
   const config = useAppConfig();
@@ -156,8 +159,6 @@ function Screen() {
           <div className={styles["window-content"]} id={SlotID.AppBody}>
             <Routes>
               <Route path={Path.Home} element={<Chat />} />
-              <Route path={Path.NewChat} element={<NewChat />} />
-              <Route path={Path.Masks} element={<MaskPage />} />
               <Route path={Path.Chat} element={<Chat />} />
               <Route path={Path.Settings} element={<Settings />} />
               <Route path={Path.ChatPage} element={<Chat />} />
