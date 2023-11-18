@@ -14,7 +14,7 @@ import Locale from "../../locales";
 
 import { createRoot } from "react-dom/client";
 import React, { HTMLProps, useEffect, useState } from "react";
-import { IconButton } from "../button";
+import { IconButton } from "../BaseButton";
 
 export function Popover(props: {
   children: JSX.Element;

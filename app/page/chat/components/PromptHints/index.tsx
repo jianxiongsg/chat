@@ -2,7 +2,7 @@ import { Prompt } from "@/app/store/prompt";
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./index.module.scss";
 export type RenderPompt = Pick<Prompt, "title" | "content">;
-
+/** 快捷指令*/
 export function PromptHints(props: {
   prompts: RenderPompt[];
   onPromptSelect: (prompt: RenderPompt) => void;

@@ -1,4 +1,4 @@
-import { IconButton } from "@/app/components/Button/index";
+import { IconButton } from "@/app/components/BaseButton/index";
 import { ListItem, Modal, showConfirm } from "@/app/components/UiLib";
 import { useChatStore } from "@/app/store";
 import { useMaskStore } from "@/app/store/mask";

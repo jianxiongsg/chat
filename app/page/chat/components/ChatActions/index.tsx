@@ -75,6 +75,7 @@ export function ChatActions(props: {
           icon={<BottomIcon />}
         />
       )}
+      {/* 对话设置按钮 */}
       {props.hitBottom && (
         <ChatAction
           onClick={props.showPromptModal}

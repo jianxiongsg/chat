@@ -2,7 +2,6 @@ import { useEffect, useRef, useCallback, useMemo } from "react";
 
 import styles from "./index.module.scss";
 
-import { IconButton } from "../Button/index";
 import SettingsIcon from "../../components/Icons/settings.svg";
 import GithubIcon from "../../components/Icons/github.svg";
 import ChatGptIcon from "../../components/Icons/chatgpt.svg";
@@ -29,6 +28,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { isIOS, useMobileScreen } from "../../utils";
 import dynamic from "next/dynamic";
 import { showConfirm, showToast } from "../UiLib";
+import { IconButton } from "../BaseButton/index";
 
 const ChatList = dynamic(async () => (await import("../ChatList")).ChatList, {
   loading: () => null,
@@ -154,10 +154,10 @@ export function SideBar(props: { className?: string }) {
     >
       <div className={styles["sidebar-header"]} data-tauri-drag-region>
         <div className={styles["sidebar-title"]} data-tauri-drag-region>
-          ChatGPT Next
+          ChatGPT
         </div>
         <div className={styles["sidebar-sub-title"]}>
-          Build your own AI assistant.
+          Your own AI assistant.
         </div>
         <div className={styles["sidebar-logo"] + " no-dark"}>
           <ChatGptIcon />
@@ -165,7 +165,8 @@ export function SideBar(props: { className?: string }) {
       </div>
 
       <div className={styles["sidebar-header-bar"]}>
-        <IconButton
+        <div className={styles["sidebar-record"]}>{"聊天记录"}</div>
+        {/* <IconButton
           icon={<MaskIcon />}
           text={shouldNarrow ? undefined : Locale.Mask.Name}
           className={styles["sidebar-bar-button"]}
@@ -184,9 +185,9 @@ export function SideBar(props: { className?: string }) {
           className={styles["sidebar-bar-button"]}
           onClick={() => showToast(Locale.WIP)}
           shadow
-        />
+        /> */}
       </div>
-
+      {/* 聊天列表 */}
       <div
         className={styles["sidebar-body"]}
         onClick={(e) => {
@@ -215,29 +216,20 @@ export function SideBar(props: { className?: string }) {
               <IconButton icon={<SettingsIcon />} shadow />
             </Link>
           </div>
-          <div className={styles["sidebar-action"]}>
-            <a href={REPO_URL} target="_blank" rel="noopener noreferrer">
-              <IconButton icon={<GithubIcon />} shadow />
-            </a>
-          </div>
         </div>
         <div>
           <IconButton
             icon={<AddIcon />}
             text={shouldNarrow ? undefined : Locale.Home.NewChat}
             onClick={() => {
-              if (config.dontShowMaskSplashScreen) {
-                chatStore.newSession();
-                navigate(Path.Chat);
-              } else {
-                navigate(Path.NewChat);
-              }
+              chatStore.newSession();
+              navigate(Path.Chat);
             }}
             shadow
           />
         </div>
       </div>
-
+      {/* */}
       <div
         className={styles["sidebar-drag"]}
         onPointerDown={(e) => onDragStart(e as any)}

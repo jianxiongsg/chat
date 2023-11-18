@@ -1,4 +1,4 @@
-import { IconButton } from "../button";
+import { IconButton } from "../BaseButton";
 import { ErrorBoundary } from "../Error/index";
 
 import styles from "./index.module.scss";

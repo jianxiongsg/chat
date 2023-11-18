@@ -32,7 +32,7 @@ import {
 } from "../../components/UiLib";
 import { ModelConfigList } from "../../components/ModelConfig";
 
-import { IconButton } from "../../components/Button/index";
+import { IconButton } from "../../components/BaseButton/index";
 import {
   SubmitKey,
   useChatStore,

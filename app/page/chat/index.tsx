@@ -38,7 +38,7 @@ import { ChatControllerPool } from "../../client/controller";
 import { Prompt, usePromptStore } from "../../store/prompt";
 import Locale from "../../locales";
 
-import { IconButton } from "../../components/Button/index";
+import { IconButton } from "../../components/BaseButton/index";
 import styles from "./index.module.scss";
 
 import {
@@ -88,8 +88,6 @@ function _Chat() {
   const config = useAppConfig();
   const fontSize = config.fontSize;
 
-  const [showExport, setShowExport] = useState(false);
-
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [userInput, setUserInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -101,6 +99,7 @@ function _Chat() {
 
   // prompt hints
   const promptStore = usePromptStore();
+  console.log("promptStore:", promptStore);
   const [promptHints, setPromptHints] = useState<RenderPompt[]>([]);
   const onSearch = useDebouncedCallback(
     (text: string) => {
@@ -515,10 +514,12 @@ function _Chat() {
 
   return (
     <div className={styles.chat} key={session.id}>
+      {/* 顶部导航栏 */}
       <div className="window-header" data-tauri-drag-region>
         {isMobileScreen && (
           <div className="window-actions">
             <div className={"window-action-button"}>
+              {/* 手机版的返回按钮 */}
               <IconButton
                 icon={<ReturnIcon />}
                 bordered
@@ -528,7 +529,6 @@ function _Chat() {
             </div>
           </div>
         )}
-
         <div className={`window-header-title ${styles["chat-body-title"]}`}>
           <div
             className={`window-header-main-title ${styles["chat-body-main-title"]}`}
@@ -539,6 +539,7 @@ function _Chat() {
             {Locale.Chat.SubTitle(session.messages.length)}
           </div>
         </div>
+        {/* 顶部右侧按钮区 */}
         <div className="window-actions">
           {showMaxIcon && (
             <div className="window-action-button">
@@ -554,14 +555,14 @@ function _Chat() {
             </div>
           )}
         </div>
-
+        {/* 对话框 */}
         <PromptToast
           showToast={!hitBottom}
           showModal={showPromptModal}
           setShowModal={setShowPromptModal}
         />
       </div>
-
+      {/* 聊天区 */}
       <div
         className={styles["chat-body"]}
         ref={scrollRef}
@@ -625,7 +626,7 @@ function _Chat() {
                         </>
                       )}
                     </div>
-
+                    {/* 聊天消息上面的设置 */}
                     {showActions && (
                       <div className={styles["chat-message-actions"]}>
                         <div className={styles["chat-input-actions"]}>
@@ -669,11 +670,13 @@ function _Chat() {
                       </div>
                     )}
                   </div>
+                  {/* 正在输入提示 */}
                   {showTyping && (
                     <div className={styles["chat-message-status"]}>
                       {Locale.Chat.Typing}
                     </div>
                   )}
+                  {/* 具体聊天内容 */}
                   <div className={styles["chat-message-item"]}>
                     <Markdown
                       content={message.content}
@@ -692,7 +695,7 @@ function _Chat() {
                       defaultShow={i >= messages.length - 6}
                     />
                   </div>
-
+                  {/* 聊天底部日期 */}
                   <div className={styles["chat-message-action-date"]}>
                     {isContext
                       ? Locale.Chat.IsContext
@@ -707,6 +710,7 @@ function _Chat() {
       </div>
 
       <div className={styles["chat-input-panel"]}>
+        {/* 快捷指令 */}
         <PromptHints prompts={promptHints} onPromptSelect={onPromptSelect} />
 
         <ChatActions
@@ -725,6 +729,7 @@ function _Chat() {
             onSearch("");
           }}
         />
+        {/* 输入框 */}
         <div className={styles["chat-input-panel-inner"]}>
           <textarea
             ref={inputRef}
@@ -741,6 +746,7 @@ function _Chat() {
               fontSize: config.fontSize,
             }}
           />
+          {/* 发送按钮 */}
           <IconButton
             icon={<SendWhiteIcon />}
             text={Locale.Chat.Send}
@@ -753,10 +759,6 @@ function _Chat() {
           />
         </div>
       </div>
-
-      {showExport && (
-        <ExportMessageModal onClose={() => setShowExport(false)} />
-      )}
     </div>
   );
 }
@@ -764,5 +766,6 @@ function _Chat() {
 export function Chat() {
   const chatStore = useChatStore();
   const sessionIndex = chatStore.currentSessionIndex;
+  console.log("chatStore", chatStore);
   return <_Chat key={sessionIndex}></_Chat>;
 }

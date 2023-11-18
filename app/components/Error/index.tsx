@@ -1,5 +1,5 @@
 import React from "react";
-import { IconButton } from "../button";
+import { IconButton } from "../BaseButton";
 import GithubIcon from "../Icons/github.svg";
 import ResetIcon from "../Icons/reload.svg";
 import { ISSUE_URL } from "../../constant";

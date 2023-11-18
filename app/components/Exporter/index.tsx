@@ -11,7 +11,7 @@ import {
   showModal,
   showToast,
 } from "../UiLib";
-import { IconButton } from "../button";
+import { IconButton } from "../BaseButton";
 import { copyToClipboard, downloadAs, useMobileScreen } from "../../utils";
 
 import CopyIcon from "../Icons/copy.svg";
