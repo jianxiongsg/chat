@@ -26,7 +26,6 @@ import { Selector, showToast } from "../../../../components/UiLib";
 export function ChatActions(props: {
   showPromptModal: () => void;
   scrollToBottom: () => void;
-  showPromptHints: () => void;
   hitBottom: boolean;
 }) {
   const config = useAppConfig();
@@ -98,12 +97,6 @@ export function ChatActions(props: {
             ) : null}
           </>
         }
-      />
-
-      <ChatAction
-        onClick={props.showPromptHints}
-        text={Locale.Chat.InputActions.Prompt}
-        icon={<PromptIcon />}
       />
 
       <ChatAction

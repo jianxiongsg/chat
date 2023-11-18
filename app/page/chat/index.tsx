@@ -35,42 +35,28 @@ import {
 import dynamic from "next/dynamic";
 
 import { ChatControllerPool } from "../../client/controller";
-import { Prompt, usePromptStore } from "../../store/prompt";
+import { usePromptStore } from "../../store/prompt";
 import Locale from "../../locales";
 
 import { IconButton } from "../../components/BaseButton/index";
 import styles from "./index.module.scss";
 
-import {
-  List,
-  ListItem,
-  Modal,
-  Selector,
-  showConfirm,
-  showPrompt,
-  showToast,
-} from "../../components/UiLib";
+import { showPrompt } from "../../components/UiLib";
 import { useNavigate } from "react-router-dom";
 import {
   CHAT_PAGE_SIZE,
   LAST_INPUT_KEY,
   Path,
   REQUEST_TIMEOUT_MS,
-  UNFINISHED_INPUT,
 } from "../../constant";
-import { MaskAvatar, MaskConfig } from "../../components/Mask/index";
-import { useMaskStore } from "../../store/mask";
-import { ChatCommandPrefix, useChatCommand, useCommand } from "../../command";
+import { MaskAvatar } from "../../components/Mask/index";
 import { prettyObject } from "../../utils/format";
-import { ExportMessageModal } from "../../components/Exporter/index";
 import { getClientConfig } from "../../config/client";
 import { Avatar } from "@/app/components/Emoji/index";
 import ChatAction from "./components/ChatAction";
 import { ChatActions } from "./components/ChatActions";
 import PromptToast from "./components/PromptToast";
 import { useScrollToBottom } from "@/app/hooks/useScrollToBottom";
-import { PromptHints, RenderPompt } from "./components/PromptHints";
-import { useSubmitHandler } from "@/app/hooks/useSubmitHandler";
 import { ClearContextDivider } from "./components/ClearContextDivider";
 
 const Markdown = dynamic(
@@ -91,7 +77,6 @@ function _Chat() {
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [userInput, setUserInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const { submitKey, shouldSubmit } = useSubmitHandler();
   const { scrollRef, setAutoScroll, scrollDomToBottom } = useScrollToBottom();
   const [hitBottom, setHitBottom] = useState(true);
   const isMobileScreen = useMobileScreen();
@@ -100,18 +85,9 @@ function _Chat() {
   // prompt hints
   const promptStore = usePromptStore();
   console.log("promptStore:", promptStore);
-  const [promptHints, setPromptHints] = useState<RenderPompt[]>([]);
-  const onSearch = useDebouncedCallback(
-    (text: string) => {
-      const matchedPrompts = promptStore.search(text);
-      setPromptHints(matchedPrompts);
-    },
-    100,
-    { leading: true, trailing: true },
-  );
-
   // auto grow input
   const [inputRows, setInputRows] = useState(2);
+  /** 设置 文本区域的高度*/
   const measure = useDebouncedCallback(
     () => {
       const rows = inputRef.current ? autoGrowTextArea(inputRef.current) : 1;
@@ -131,72 +107,20 @@ function _Chat() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(measure, [userInput]);
 
-  // chat commands shortcuts
-  const chatCommands = useChatCommand({
-    new: () => chatStore.newSession(),
-    newm: () => navigate(Path.NewChat),
-    prev: () => chatStore.nextSession(-1),
-    next: () => chatStore.nextSession(1),
-    clear: () =>
-      chatStore.updateCurrentSession(
-        (session) => (session.clearContextIndex = session.messages.length),
-      ),
-    del: () => chatStore.deleteSession(chatStore.currentSessionIndex),
-  });
-
-  // only search prompts when user input is short
-  const SEARCH_TEXT_LIMIT = 30;
   const onInput = (text: string) => {
     setUserInput(text);
-    const n = text.trim().length;
-
-    // clear search results
-    if (n === 0) {
-      setPromptHints([]);
-    } else if (text.startsWith(ChatCommandPrefix)) {
-      setPromptHints(chatCommands.search(text));
-    } else if (!config.disablePromptHint && n < SEARCH_TEXT_LIMIT) {
-      // check if need to trigger auto completion
-      if (text.startsWith("/")) {
-        let searchText = text.slice(1);
-        onSearch(searchText);
-      }
-    }
   };
 
   const doSubmit = (userInput: string) => {
     if (userInput.trim() === "") return;
-    const matchCommand = chatCommands.match(userInput);
-    if (matchCommand.matched) {
-      setUserInput("");
-      setPromptHints([]);
-      matchCommand.invoke();
-      return;
-    }
+
     setIsLoading(true);
     chatStore.onUserInput(userInput).then(() => setIsLoading(false));
     localStorage.setItem(LAST_INPUT_KEY, userInput);
     setUserInput("");
-    setPromptHints([]);
+    // setPromptHints([]);
     if (!isMobileScreen) inputRef.current?.focus();
     setAutoScroll(true);
-  };
-
-  const onPromptSelect = (prompt: RenderPompt) => {
-    setTimeout(() => {
-      setPromptHints([]);
-
-      const matchedChatCommand = chatCommands.match(prompt.content);
-      if (matchedChatCommand.matched) {
-        // if user is selecting a chat command, just trigger it
-        matchedChatCommand.invoke();
-        setUserInput("");
-      } else {
-        // or fill the prompt
-        setUserInput(prompt.content);
-      }
-      inputRef.current?.focus();
-    }, 30);
   };
 
   // stop response
@@ -232,35 +156,6 @@ function _Chat() {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  // check if should send message
-  const onInputKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // if ArrowUp and no userInput, fill with last input
-    if (
-      e.key === "ArrowUp" &&
-      userInput.length <= 0 &&
-      !(e.metaKey || e.altKey || e.ctrlKey)
-    ) {
-      setUserInput(localStorage.getItem(LAST_INPUT_KEY) ?? "");
-      e.preventDefault();
-      return;
-    }
-    if (shouldSubmit(e) && promptHints.length === 0) {
-      doSubmit(userInput);
-      e.preventDefault();
-    }
-  };
-  const onRightClick = (e: any, message: ChatMessage) => {
-    // copy to clipboard
-    if (selectOrCopy(e.currentTarget, message.content)) {
-      if (userInput.length === 0) {
-        setUserInput(message.content);
-      }
-
-      e.preventDefault();
-    }
-  };
-
   const deleteMessage = (msgId?: string) => {
     chatStore.updateCurrentSession(
       (session) =>
@@ -271,7 +166,7 @@ function _Chat() {
   const onDelete = (msgId: string) => {
     deleteMessage(msgId);
   };
-
+  //重新发送
   const onResend = (message: ChatMessage) => {
     // when it is resending a message
     // 1. for a user's message, find the next bot response
@@ -326,19 +221,7 @@ function _Chat() {
     inputRef.current?.focus();
   };
 
-  const onPinMessage = (message: ChatMessage) => {
-    chatStore.updateCurrentSession((session) =>
-      session.mask.context.push(message),
-    );
-
-    showToast(Locale.Chat.Actions.PinToastContent, {
-      text: Locale.Chat.Actions.PinToastAction,
-      onClick: () => {
-        setShowPromptModal(true);
-      },
-    });
-  };
-
+  // 聊天内容处理
   const context: RenderMessage[] = useMemo(() => {
     return session.mask.hideContext ? [] : session.mask.context.slice();
   }, [session.mask.context, session.mask.hideContext]);
@@ -449,68 +332,6 @@ function _Chat() {
 
   const autoFocus = !isMobileScreen; // wont auto focus on mobile screen
   const showMaxIcon = !isMobileScreen && !clientConfig?.isApp;
-
-  useCommand({
-    fill: setUserInput,
-    submit: (text) => {
-      doSubmit(text);
-    },
-    code: (text) => {
-      if (accessStore.disableFastLink) return;
-      console.log("[Command] got code from url: ", text);
-      showConfirm(Locale.URLCommand.Code + `code = ${text}`).then((res) => {
-        if (res) {
-          accessStore.update((access) => (access.accessCode = text));
-        }
-      });
-    },
-    settings: (text) => {
-      if (accessStore.disableFastLink) return;
-
-      try {
-        const payload = JSON.parse(text) as {
-          key?: string;
-          url?: string;
-        };
-
-        console.log("[Command] got settings from url: ", payload);
-
-        if (payload.key || payload.url) {
-          showConfirm(
-            Locale.URLCommand.Settings +
-              `\n${JSON.stringify(payload, null, 4)}`,
-          ).then((res) => {
-            if (!res) return;
-            if (payload.key) {
-              accessStore.update((access) => (access.token = payload.key!));
-            }
-            if (payload.url) {
-              accessStore.update((access) => (access.openaiUrl = payload.url!));
-            }
-          });
-        }
-      } catch {
-        console.error("[Command] failed to get settings from url: ", text);
-      }
-    },
-  });
-
-  // remember unfinished input
-  useEffect(() => {
-    // try to load from local storage
-    const key = UNFINISHED_INPUT(session.id);
-    const mayBeUnfinishedInput = localStorage.getItem(key);
-    if (mayBeUnfinishedInput && userInput.length === 0) {
-      setUserInput(mayBeUnfinishedInput);
-      localStorage.removeItem(key);
-    }
-
-    const dom = inputRef.current;
-    return () => {
-      localStorage.setItem(key, dom?.value ?? "");
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className={styles.chat} key={session.id}>
@@ -654,11 +475,11 @@ function _Chat() {
                                 }
                               />
 
-                              <ChatAction
+                              {/* <ChatAction
                                 text={Locale.Chat.Actions.Pin}
                                 icon={<PinIcon />}
                                 onClick={() => onPinMessage(message)}
-                              />
+                              /> */}
                               <ChatAction
                                 text={Locale.Chat.Actions.Copy}
                                 icon={<CopyIcon />}
@@ -685,11 +506,11 @@ function _Chat() {
                         message.content.length === 0 &&
                         !isUser
                       }
-                      onContextMenu={(e) => onRightClick(e, message)}
-                      onDoubleClickCapture={() => {
-                        if (!isMobileScreen) return;
-                        setUserInput(message.content);
-                      }}
+                      // onContextMenu={(e) => onRightClick(e, message)}
+                      // onDoubleClickCapture={() => {
+                      //   if (!isMobileScreen) return;
+                      //   setUserInput(message.content);
+                      // }}
                       fontSize={fontSize}
                       parentRef={scrollRef}
                       defaultShow={i >= messages.length - 6}
@@ -710,34 +531,19 @@ function _Chat() {
       </div>
 
       <div className={styles["chat-input-panel"]}>
-        {/* 快捷指令 */}
-        <PromptHints prompts={promptHints} onPromptSelect={onPromptSelect} />
-
         <ChatActions
           showPromptModal={() => setShowPromptModal(true)}
           scrollToBottom={scrollToBottom}
           hitBottom={hitBottom}
-          showPromptHints={() => {
-            // Click again to close
-            if (promptHints.length > 0) {
-              setPromptHints([]);
-              return;
-            }
-
-            inputRef.current?.focus();
-            setUserInput("/");
-            onSearch("");
-          }}
         />
         {/* 输入框 */}
         <div className={styles["chat-input-panel-inner"]}>
           <textarea
             ref={inputRef}
             className={styles["chat-input"]}
-            placeholder={Locale.Chat.Input(submitKey)}
+            placeholder={"这里输入问题"}
             onInput={(e) => onInput(e.currentTarget.value)}
             value={userInput}
-            onKeyDown={onInputKeyDown}
             onFocus={scrollToBottom}
             onClick={scrollToBottom}
             rows={inputRows}
