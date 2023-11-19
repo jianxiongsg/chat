@@ -130,6 +130,10 @@ export function getHeaders() {
   let headers: Record<string, string> = {
     "Content-Type": "application/json",
     "x-requested-with": "XMLHttpRequest",
+    Accept: "text/event-stream",
+    "Access-Control-Allow-Credentials": "false",
+    "Access-Control-Allow-Headers":
+      "access-control-allow-credentials,authorization,content-type,x-requested-with",
   };
 
   const makeBearer = (token: string) => `Bearer ${token.trim()}`;

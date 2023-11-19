@@ -82,9 +82,6 @@ function _Chat() {
   const isMobileScreen = useMobileScreen();
   const navigate = useNavigate();
 
-  // prompt hints
-  const promptStore = usePromptStore();
-  console.log("promptStore:", promptStore);
   // auto grow input
   const [inputRows, setInputRows] = useState(2);
   /** 设置 文本区域的高度*/
@@ -475,11 +472,6 @@ function _Chat() {
                                 }
                               />
 
-                              {/* <ChatAction
-                                text={Locale.Chat.Actions.Pin}
-                                icon={<PinIcon />}
-                                onClick={() => onPinMessage(message)}
-                              /> */}
                               <ChatAction
                                 text={Locale.Chat.Actions.Copy}
                                 icon={<CopyIcon />}
@@ -506,11 +498,6 @@ function _Chat() {
                         message.content.length === 0 &&
                         !isUser
                       }
-                      // onContextMenu={(e) => onRightClick(e, message)}
-                      // onDoubleClickCapture={() => {
-                      //   if (!isMobileScreen) return;
-                      //   setUserInput(message.content);
-                      // }}
                       fontSize={fontSize}
                       parentRef={scrollRef}
                       defaultShow={i >= messages.length - 6}

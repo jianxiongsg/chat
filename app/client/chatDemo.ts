@@ -3,8 +3,8 @@ import { ChatOptions } from "./api";
 export async function onSubmit(chatPayload: any, options: any) {
   try {
     let responseText = "";
-    let talk = options.messages[options.messages.length - 1].content;
-    console.log(talk, options);
+    // let talk = options.messages[options.messages.length - 1].content;
+    // console.log(talk, options);
     // fetch('http://127.0.0.1:7001/chat/?talk=' + talk)
     fetch("http://127.0.0.1:7001/chat/", {
       // fetch('https://chat-gpt-web-weld-eight.vercel.app/api/openai/v1/chat/completions', {

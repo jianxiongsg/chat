@@ -17,6 +17,7 @@ import { prettyObject } from "../utils/format";
 import { estimateTokenLength } from "../utils/token";
 import { nanoid } from "nanoid";
 import { createPersistStore } from "../utils/store";
+import { onSubmit } from "../client/chatDemo";
 
 export type ChatMessage = RequestMessage & {
   date: string;
@@ -327,7 +328,6 @@ export const useChatStore = createPersistStore(
             botMessage,
           ]);
         });
-
         // make request
         api.llm.chat({
           messages: sendMessages,
