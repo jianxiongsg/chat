@@ -150,10 +150,7 @@ export function requestReadableStream(
           path,
           Object.assign(Object.assign({}, reqParams)),
         );
-        console.log("..............response", response);
         const reader = response.body.getReader();
-        // onopen && await onopen(response);
-        console.log(".......sss");
         let responseText = "";
         new ReadableStream({
           start(controller) {

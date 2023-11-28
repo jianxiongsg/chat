@@ -10,9 +10,6 @@ import { ChatOptions, getHeaders, LLMApi, LLMModel, LLMUsage } from "../api";
 import Locale from "../../locales";
 import { prettyObject } from "@/app/utils/format";
 import { getClientConfig } from "@/app/config/client";
-import { onSubmit } from "../chatDemo";
-// import { EventStreamContentType, fetchEventSource } from "../fetchEventSource";
-import { requestReadableStream } from "../fetchEventSource/fetch";
 import {
   EventStreamContentType,
   fetchEventSource,
@@ -88,6 +85,7 @@ export class ChatGPTApi implements LLMApi {
         body: JSON.stringify(requestPayload),
         signal: controller.signal,
         headers: getHeaders(),
+        // keepAlive: true
       };
       // make a fetch request
       const requestTimeoutId = setTimeout(
@@ -121,7 +119,6 @@ export class ChatGPTApi implements LLMApi {
               responseText = await res.clone().text();
               return finish();
             }
-            console.log("........headers", res.headers.get("content-type"));
             if (
               !res.ok ||
               !res.headers
@@ -179,85 +176,8 @@ export class ChatGPTApi implements LLMApi {
           },
           openWhenHidden: true,
         });
-        //'https://api.openai.com' +
-
-        // onSubmit(chatPayload, options);
-        // return;
-        // requestReadableStream("http://127.0.0.1:7001/chat/", chatPayload, {
-        //   // fetchEventSource('https://chat-gpt-web-weld-eight.vercel.app/api/openai/v1/chat/completions', {
-
-        //   async onopen(res) {
-        //     clearTimeout(requestTimeoutId);
-        //     const contentType = res.headers.get("content-type");
-        //     console.log(
-        //       "[OpenAI] request response content type: ",
-        //       contentType,
-        //     );
-
-        //     if (contentType?.startsWith("text/plain")) {
-        //       responseText = await res.clone().text();
-        //       return finish();
-        //     }
-
-        //     if (
-        //       !res.ok ||
-        //       !res.headers
-        //         .get("content-type")
-        //         ?.startsWith(EventStreamContentType) ||
-        //       res.status !== 200
-        //     ) {
-        //       console.log(".....res", res, responseText);
-        //       const responseTexts = [responseText];
-        //       let extraInfo = await res.clone().text();
-        //       try {
-        //         const resJson = await res.clone().json();
-        //         extraInfo = prettyObject(resJson);
-        //       } catch {}
-
-        //       if (res.status === 401) {
-        //         responseTexts.push(Locale.Error.Unauthorized);
-        //       }
-
-        //       if (extraInfo) {
-        //         responseTexts.push(extraInfo);
-        //       }
-
-        //       responseText = responseTexts.join("\n\n");
-
-        //       return finish();
-        //     }
-        //   },
-        //   onmessage(msg) {
-        //     console.log("..........msg", msg);
-        //     return;
-        //     // if (msg.data === "[DONE]" || finished) {
-        //     //   return finish();
-        //     // }
-        //     // const text = msg.data;
-        //     // try {
-        //     //   const json = JSON.parse(text);
-        //     //   const delta = json.choices[0].delta.content;
-        //     //   if (delta) {
-        //     //     responseText += delta;
-        //     //     options.onUpdate?.(responseText, delta);
-        //     //   }
-        //     // } catch (e) {
-        //     //   console.error("[Request] parse error", text, msg);
-        //     // }
-        //   },
-        //   onclose() {
-        //     console.log(".....onclose");
-        //     finish();
-        //   },
-        //   onerror(e) {
-        //     console.log(".....err", e);
-        //     options.onError?.(e);
-        //     throw e;
-        //   },
-        //   openWhenHidden: true,
-        // });
       } else {
-        const res = await fetch(chatPath, chatPayload);
+        const res = await fetch("http://127.0.0.1:7001/chat/", chatPayload);
         clearTimeout(requestTimeoutId);
 
         const resJson = await res.json();

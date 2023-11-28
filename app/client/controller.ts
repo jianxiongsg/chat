@@ -15,11 +15,13 @@ export const ChatControllerPool = {
   stop(sessionId: string, messageId: string) {
     const key = this.key(sessionId, messageId);
     const controller = this.controllers[key];
+    console.log("...about", key);
     controller?.abort();
   },
 
   stopAll() {
-    Object.values(this.controllers).forEach((v) => v.abort());
+    console.log("...aboutAll");
+    Object.values(this.controllers).forEach((v: any) => v.abort());
   },
 
   hasPending() {
