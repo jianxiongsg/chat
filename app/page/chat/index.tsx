@@ -56,7 +56,7 @@ import { useScrollToBottom } from "@/app/hooks/useScrollToBottom";
 import { ClearContextDivider } from "./components/ClearContextDivider";
 
 const Markdown = dynamic(
-  async () => (await import("../../components/Markdown/index")).Markdown,
+  async () => (await import("./components/Markdown/index")).Markdown,
   {
     loading: () => <LoadingIcon />,
   },

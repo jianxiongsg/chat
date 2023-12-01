@@ -29,10 +29,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <head>
-        <link rel="manifest" href="/site.webmanifest"></link>
-        <script src="/serviceWorkerRegister.js" defer></script>
-      </head>
+      <head></head>
       <body>{children}</body>
     </html>
   );

@@ -18,7 +18,6 @@ export enum SlotID {
 
 export enum FileName {
   Masks = "masks.json",
-  Prompts = "prompts.json",
 }
 
 export enum StoreKey {

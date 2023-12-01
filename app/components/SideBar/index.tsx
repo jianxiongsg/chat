@@ -3,12 +3,9 @@ import { useEffect, useRef, useCallback, useMemo } from "react";
 import styles from "./index.module.scss";
 
 import SettingsIcon from "../../components/Icons/settings.svg";
-import GithubIcon from "../../components/Icons/github.svg";
 import ChatGptIcon from "../../components/Icons/chatgpt.svg";
 import AddIcon from "../../components/Icons/add.svg";
 import CloseIcon from "../../components/Icons/close.svg";
-import MaskIcon from "../../components/Icons/mask.svg";
-import PluginIcon from "../../components/Icons/plugin.svg";
 import DragIcon from "../../components/Icons/drag.svg";
 
 import Locale from "../../locales";
@@ -29,7 +26,7 @@ import dynamic from "next/dynamic";
 import { showConfirm, showToast } from "../UiLib";
 import { IconButton } from "../BaseButton/index";
 
-const ChatList = dynamic(async () => (await import("../ChatList")).ChatList, {
+const ChatList = dynamic(async () => (await import("./ChatList")).ChatList, {
   loading: () => null,
 });
 
@@ -165,26 +162,6 @@ export function SideBar(props: { className?: string }) {
 
       <div className={styles["sidebar-header-bar"]}>
         <div className={styles["sidebar-record"]}>{"聊天记录"}</div>
-        {/* <IconButton
-          icon={<MaskIcon />}
-          text={shouldNarrow ? undefined : Locale.Mask.Name}
-          className={styles["sidebar-bar-button"]}
-          onClick={() => {
-            if (config.dontShowMaskSplashScreen !== true) {
-              navigate(Path.NewChat, { state: { fromHome: true } });
-            } else {
-              navigate(Path.Masks, { state: { fromHome: true } });
-            }
-          }}
-          shadow
-        />
-        <IconButton
-          icon={<PluginIcon />}
-          text={shouldNarrow ? undefined : Locale.Plugin.Name}
-          className={styles["sidebar-bar-button"]}
-          onClick={() => showToast(Locale.WIP)}
-          shadow
-        /> */}
       </div>
       {/* 聊天列表 */}
       <div

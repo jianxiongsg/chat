@@ -1,5 +1,4 @@
-import DeleteIcon from "../Icons/delete.svg";
-import BotIcon from "../Icons/bot.svg";
+import DeleteIcon from "../../Icons/delete.svg";
 
 import styles from "./index.module.scss";
 import {
@@ -9,15 +8,15 @@ import {
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
 
-import { useChatStore } from "../../store";
+import { useChatStore } from "../../../store";
 
-import Locale from "../../locales";
+import Locale from "../../../locales";
 import { Link, useNavigate } from "react-router-dom";
-import { Path } from "../../constant";
-import { Mask } from "../../store/mask";
+import { Path } from "../../../constant";
+import { Mask } from "../../../store/mask";
 import { useRef, useEffect } from "react";
-import { showConfirm } from "../UiLib";
-import { MaskAvatar } from "../Emoji";
+import { showConfirm } from "../../UiLib";
+import { MaskAvatar } from "../../Emoji";
 
 export function ChatItem(props: {
   onClick?: () => void;
