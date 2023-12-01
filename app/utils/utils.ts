@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { showToast } from "./components/UiLib";
-import Locale from "./locales";
+import { showToast } from "../components/UiLib";
+import Locale from "../locales";
 
 export function trimTopic(topic: string) {
   return topic.replace(/[，。！？”“"、,.!?]*$/, "");
 }
-
+/** 复制文案 */
 export async function copyToClipboard(text: string) {
   try {
     if (window.__TAURI__) {

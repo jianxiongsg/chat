@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Updater } from "../typing";
+import { Updater } from "../typings/typing";
 import { deepClone } from "./clone";
 
 type SecondParam<T> = T extends (

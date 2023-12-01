@@ -3,7 +3,6 @@ import { IconButton } from "../BaseButton";
 import ResetIcon from "../Icons/reload.svg";
 import Locale from "../../locales";
 import { showConfirm } from "../UiLib";
-import { useSyncStore } from "../../store/sync";
 
 interface IErrorBoundaryState {
   hasError: boolean;
@@ -22,18 +21,11 @@ export class ErrorBoundary extends React.Component<any, IErrorBoundaryState> {
     this.setState({ hasError: true, error, info });
   }
 
-  clearAndSaveData() {
-    try {
-      useSyncStore.getState().export();
-    } finally {
-      localStorage.clear();
-      location.reload();
-    }
-  }
+  clearAndSaveData() {}
 
   render() {
     if (this.state.hasError) {
-      // Render error message
+      // Render error message 页面异常
       return (
         <div className="error">
           <h2>Oops, something went wrong!</h2>

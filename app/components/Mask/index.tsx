@@ -1,19 +1,13 @@
 import { IconButton } from "../BaseButton";
-import { ErrorBoundary } from "../Error/index";
 
 import styles from "./index.module.scss";
 
-import DownloadIcon from "../Icons/download.svg";
-import UploadIcon from "../Icons/upload.svg";
-import EditIcon from "../Icons/edit.svg";
 import AddIcon from "../Icons/add.svg";
-import CloseIcon from "../Icons/close.svg";
 import DeleteIcon from "../Icons/delete.svg";
-import EyeIcon from "../Icons/eye.svg";
 import CopyIcon from "../Icons/copy.svg";
 import DragIcon from "../Icons/drag.svg";
 
-import { DEFAULT_MASK_AVATAR, Mask, useMaskStore } from "../../store/mask";
+import { Mask, useMaskStore } from "../../store/mask";
 import {
   ChatMessage,
   createMessage,
@@ -36,8 +30,8 @@ import Locale, { AllLangs, ALL_LANG_OPTIONS, Lang } from "../../locales";
 import { useNavigate } from "react-router-dom";
 
 import { useEffect, useState } from "react";
-import { copyToClipboard, downloadAs, readFromFile } from "../../utils";
-import { Updater } from "../../typing";
+import { copyToClipboard } from "../../utils/utils";
+import { Updater } from "../../typings/typing";
 import { ModelConfigList } from "../../components/ModelConfig";
 import { FileName, Path } from "../../constant";
 import {

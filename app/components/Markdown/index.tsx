@@ -6,7 +6,7 @@ import RehypeKatex from "rehype-katex";
 import RemarkGfm from "remark-gfm";
 import RehypeHighlight from "rehype-highlight";
 import { useRef, useState, RefObject, useEffect } from "react";
-import { copyToClipboard } from "../../utils";
+import { copyToClipboard } from "../../utils/utils";
 import mermaid from "mermaid";
 
 import LoadingIcon from "../Icons/three-dots.svg";

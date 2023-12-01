@@ -17,7 +17,6 @@ export interface OpenAIListModelResponse {
     root: string;
   }>;
 }
-const BASE_URL = "http://127.0.0.1:7001";
 export class ChatGPTApi implements LLMApi {
   private disableListModels = true;
 

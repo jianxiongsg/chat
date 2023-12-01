@@ -24,7 +24,7 @@ import {
 } from "../../constant";
 
 import { Link, useNavigate } from "react-router-dom";
-import { isIOS, useMobileScreen } from "../../utils";
+import { isIOS, useMobileScreen } from "../../utils/utils";
 import dynamic from "next/dynamic";
 import { showConfirm, showToast } from "../UiLib";
 import { IconButton } from "../BaseButton/index";

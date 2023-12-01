@@ -20,7 +20,6 @@ import {
   useChatStore,
   BOT_HELLO,
   createMessage,
-  useAccessStore,
   useAppConfig,
   DEFAULT_TOPIC,
 } from "../../store";
@@ -30,12 +29,11 @@ import {
   selectOrCopy,
   autoGrowTextArea,
   useMobileScreen,
-} from "../../utils";
+} from "../../utils/utils";
 
 import dynamic from "next/dynamic";
 
 import { ChatControllerPool } from "../../servers/controller";
-import { usePromptStore } from "../../store/prompt";
 import Locale from "../../locales";
 
 import { IconButton } from "../../components/BaseButton/index";
@@ -220,16 +218,15 @@ function _Chat() {
   const context: RenderMessage[] = useMemo(() => {
     return session.mask.hideContext ? [] : session.mask.context.slice();
   }, [session.mask.context, session.mask.hideContext]);
-  const accessStore = useAccessStore();
 
   if (
     context.length === 0 &&
     session.messages.at(0)?.content !== BOT_HELLO.content
   ) {
     const copiedHello = Object.assign({}, BOT_HELLO);
-    if (!accessStore.isAuthorized()) {
-      copiedHello.content = Locale.Error.Unauthorized;
-    }
+    // if (!accessStore.isAuthorized()) {
+    //   copiedHello.content = Locale.Error.Unauthorized;
+    // }
     context.push(copiedHello);
   }
 
