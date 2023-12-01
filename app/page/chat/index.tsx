@@ -34,7 +34,7 @@ import {
 
 import dynamic from "next/dynamic";
 
-import { ChatControllerPool } from "../../client/controller";
+import { ChatControllerPool } from "../../servers/controller";
 import { usePromptStore } from "../../store/prompt";
 import Locale from "../../locales";
 
@@ -49,9 +49,8 @@ import {
   Path,
   REQUEST_TIMEOUT_MS,
 } from "../../constant";
-import { MaskAvatar } from "../../components/Mask/index";
 import { prettyObject } from "../../utils/format";
-import { Avatar } from "@/app/components/Emoji/index";
+import { Avatar, MaskAvatar } from "@/app/components/Emoji/index";
 import ChatAction from "./components/ChatAction";
 import { ChatActions } from "./components/ChatActions";
 import PromptToast from "./components/PromptToast";

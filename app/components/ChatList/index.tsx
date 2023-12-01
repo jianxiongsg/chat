@@ -14,10 +14,10 @@ import { useChatStore } from "../../store";
 import Locale from "../../locales";
 import { Link, useNavigate } from "react-router-dom";
 import { Path } from "../../constant";
-import { MaskAvatar } from "../Mask/index";
 import { Mask } from "../../store/mask";
 import { useRef, useEffect } from "react";
 import { showConfirm } from "../UiLib";
+import { MaskAvatar } from "../Emoji";
 
 export function ChatItem(props: {
   onClick?: () => void;

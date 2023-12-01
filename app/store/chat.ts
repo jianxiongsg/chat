@@ -11,8 +11,8 @@ import {
   StoreKey,
   SUMMARIZE_MODEL,
 } from "../constant";
-import { api, RequestMessage } from "../client/api";
-import { ChatControllerPool } from "../client/controller";
+import { api, RequestMessage } from "../servers/api";
+import { ChatControllerPool } from "../servers/controller";
 import { prettyObject } from "../utils/format";
 import { estimateTokenLength } from "../utils/token";
 import { nanoid } from "nanoid";

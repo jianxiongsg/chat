@@ -29,7 +29,7 @@ import NextImage from "next/image";
 
 import { toBlob, toJpeg, toPng } from "html-to-image";
 import { DEFAULT_MASK_AVATAR } from "../../store/mask";
-import { api } from "../../client/api";
+import { api } from "../../servers/api";
 import { prettyObject } from "../../utils/format";
 import { EXPORT_MESSAGE_CLASS_NAME } from "../../constant";
 

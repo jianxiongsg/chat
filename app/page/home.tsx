@@ -26,7 +26,7 @@ import {
 import { SideBar } from "../components/SideBar/index";
 import { useAppConfig } from "../store/config";
 import { AuthPage } from "./auth";
-import { api } from "../client/api";
+import { api } from "../servers/api";
 import { useAccessStore } from "../store";
 
 export function Loading(props: { noLogo?: boolean }) {

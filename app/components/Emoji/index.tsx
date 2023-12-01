@@ -7,6 +7,7 @@ import EmojiPicker, {
 import BotIcon from "../Icons/bot.svg";
 import BlackBotIcon from "../Icons/black-bot.svg";
 import { ModelType } from "@/app/store";
+import { DEFAULT_MASK_AVATAR, Mask } from "@/app/store/mask";
 
 export function getEmojiUrl(unified: string, style: EmojiStyle) {
   return `https://cdn.staticfile.org/emoji-datasource-apple/14.0.0/img/${style}/64/${unified}.png`;
@@ -54,5 +55,12 @@ export function EmojiAvatar(props: { avatar: string; size?: number }) {
       size={props.size ?? 18}
       getEmojiUrl={getEmojiUrl}
     />
+  );
+}
+export function MaskAvatar(props: { mask: Mask }) {
+  return props.mask.avatar !== DEFAULT_MASK_AVATAR ? (
+    <Avatar avatar={props.mask.avatar} />
+  ) : (
+    <Avatar model={props.mask.modelConfig.model} />
   );
 }

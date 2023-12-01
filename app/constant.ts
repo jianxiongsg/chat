@@ -1,6 +1,3 @@
-export const DEFAULT_CORS_HOST = "https://ab.nextweb.fun";
-export const DEFAULT_API_HOST = `${DEFAULT_CORS_HOST}/api/proxy`;
-
 export enum Path {
   Home = "/",
   Chat = "/chat",

@@ -7,7 +7,7 @@ import React, {
   Fragment,
 } from "react";
 import styles from "./index.module.scss";
-import { ChatControllerPool } from "@/app/client/controller";
+import { ChatControllerPool } from "@/app/servers/controller";
 import { ModelType, Theme, useAppConfig, useChatStore } from "@/app/store";
 import { useNavigate } from "react-router-dom";
 import ChatAction from "../ChatAction";
