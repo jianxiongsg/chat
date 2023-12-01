@@ -7,8 +7,6 @@ import { useAccessStore } from "../../store";
 import Locale from "../../locales";
 
 import BotIcon from "../../components/Icons/bot.svg";
-import { useEffect } from "react";
-import { getClientConfig } from "../../config/client";
 
 export function AuthPage() {
   const navigate = useNavigate();
@@ -22,13 +20,6 @@ export function AuthPage() {
       access.accessCode = "";
     });
   }; // Reset access code to empty string
-
-  useEffect(() => {
-    if (getClientConfig()?.isApp) {
-      navigate(Path.Settings);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <div className={styles["auth-page"]}>

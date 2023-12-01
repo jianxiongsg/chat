@@ -32,7 +32,6 @@ import { DEFAULT_MASK_AVATAR } from "../../store/mask";
 import { api } from "../../client/api";
 import { prettyObject } from "../../utils/format";
 import { EXPORT_MESSAGE_CLASS_NAME } from "../../constant";
-import { getClientConfig } from "../../config/client";
 
 const Markdown = dynamic(
   async () => (await import("../Markdown/index")).Markdown,
@@ -441,14 +440,12 @@ export function ImagePreviewer(props: {
     const dom = previewRef.current;
     if (!dom) return;
 
-    const isApp = getClientConfig()?.isApp;
-
     try {
       const blob = await toPng(dom);
       if (!blob) return;
 
-      if (isMobile || (isApp && window.__TAURI__)) {
-        if (isApp && window.__TAURI__) {
+      if (isMobile || window.__TAURI__) {
+        if (window.__TAURI__) {
           const result = await window.__TAURI__.dialog.save({
             defaultPath: `${props.topic}.png`,
             filters: [

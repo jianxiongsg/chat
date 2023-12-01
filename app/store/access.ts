@@ -1,13 +1,10 @@
 import { DEFAULT_API_HOST, DEFAULT_MODELS, StoreKey } from "../constant";
 import { getHeaders } from "../client/api";
-import { getClientConfig } from "../config/client";
 import { createPersistStore } from "../utils/store";
 
 let fetchState = 0; // 0 not fetch, 1 fetching, 2 done
 
-const DEFAULT_OPENAI_URL =
-  getClientConfig()?.buildMode === "export" ? DEFAULT_API_HOST : "/api/openai/";
-console.log("[API] default openai url", DEFAULT_OPENAI_URL);
+const DEFAULT_OPENAI_URL = "/api/openai/";
 
 const DEFAULT_ACCESS_STATE = {
   token: "",
@@ -39,7 +36,7 @@ export const useAccessStore = createPersistStore(
       );
     },
     fetch() {
-      if (fetchState > 0 || getClientConfig()?.buildMode === "export") return;
+      if (fetchState > 0) return;
       fetchState = 1;
       fetch("/api/config", {
         method: "post",
@@ -49,7 +46,7 @@ export const useAccessStore = createPersistStore(
         },
       })
         .then((res) => res.json())
-        .then((res: DangerConfig) => {
+        .then((res) => {
           console.log("[Config] got config from server", res);
           set(() => ({ ...res }));
 

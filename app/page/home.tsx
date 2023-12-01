@@ -26,7 +26,6 @@ import {
 import { SideBar } from "../components/SideBar/index";
 import { useAppConfig } from "../store/config";
 import { AuthPage } from "./auth";
-import { getClientConfig } from "../config/client";
 import { api } from "../client/api";
 import { useAccessStore } from "../store";
 
@@ -110,30 +109,13 @@ const useHasHydrated = () => {
   return hasHydrated;
 };
 
-// 加载google字体
-// const loadAsyncGoogleFont = () => {
-//   const linkEl = document.createElement("link");
-//   const proxyFontUrl = "/google-fonts";
-//   const remoteFontUrl = "https://fonts.googleapis.com";
-//   const googleFontUrl =
-//     getClientConfig()?.buildMode === "export" ? remoteFontUrl : proxyFontUrl;
-//   linkEl.rel = "stylesheet";
-//   linkEl.href =
-//     googleFontUrl +
-//     "/css2?family=" +
-//     encodeURIComponent("Noto Sans:wght@300;400;700;900") +
-//     "&display=swap";
-//   document.head.appendChild(linkEl);
-// };
-
 function Screen() {
   const config = useAppConfig();
   const location = useLocation();
   const isHome = location.pathname === Path.Home;
   const isAuth = location.pathname === Path.Auth;
   const isMobileScreen = useMobileScreen();
-  const shouldTightBorder =
-    getClientConfig()?.isApp || (config.tightBorder && !isMobileScreen);
+  const shouldTightBorder = config.tightBorder && !isMobileScreen;
 
   // useEffect(() => {
   // loadAsyncGoogleFont();
@@ -189,7 +171,6 @@ export function Home() {
   useHtmlLang();
 
   useEffect(() => {
-    console.log("[Config] got config from build time", getClientConfig());
     // 配置修改
     useAccessStore.getState().fetch();
   }, []);

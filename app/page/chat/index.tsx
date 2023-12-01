@@ -51,7 +51,6 @@ import {
 } from "../../constant";
 import { MaskAvatar } from "../../components/Mask/index";
 import { prettyObject } from "../../utils/format";
-import { getClientConfig } from "../../config/client";
 import { Avatar } from "@/app/components/Emoji/index";
 import ChatAction from "./components/ChatAction";
 import { ChatActions } from "./components/ChatActions";
@@ -325,10 +324,8 @@ function _Chat() {
 
   const [showPromptModal, setShowPromptModal] = useState(false);
 
-  const clientConfig = useMemo(() => getClientConfig(), []);
-
   const autoFocus = !isMobileScreen; // wont auto focus on mobile screen
-  const showMaxIcon = !isMobileScreen && !clientConfig?.isApp;
+  const showMaxIcon = !isMobileScreen;
 
   return (
     <div className={styles.chat} key={session.id}>
