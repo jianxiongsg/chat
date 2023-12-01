@@ -25,7 +25,6 @@ import {
 } from "react-router-dom";
 import { SideBar } from "../components/SideBar/index";
 import { useAppConfig } from "../store/config";
-import { AuthPage } from "./auth";
 import { api } from "../servers/api";
 import { useAccessStore } from "../store";
 
@@ -113,7 +112,7 @@ function Screen() {
   const config = useAppConfig();
   const location = useLocation();
   const isHome = location.pathname === Path.Home;
-  const isAuth = location.pathname === Path.Auth;
+  // const isAuth = location.pathname === Path.Auth;
   const isMobileScreen = useMobileScreen();
   const shouldTightBorder = config.tightBorder && !isMobileScreen;
 
@@ -130,24 +129,24 @@ function Screen() {
         }`
       }
     >
-      {isAuth ? (
+      {/* {isAuth ? (
         <>
           <AuthPage />
         </>
-      ) : (
-        <>
-          <SideBar className={isHome ? styles["sidebar-show"] : ""} />
+      ) : ( */}
+      <>
+        <SideBar className={isHome ? styles["sidebar-show"] : ""} />
 
-          <div className={styles["window-content"]} id={SlotID.AppBody}>
-            <Routes>
-              <Route path={Path.Home} element={<Chat />} />
-              <Route path={Path.Chat} element={<Chat />} />
-              <Route path={Path.Settings} element={<Settings />} />
-              <Route path={Path.ChatPage} element={<Chat />} />
-            </Routes>
-          </div>
-        </>
-      )}
+        <div className={styles["window-content"]} id={SlotID.AppBody}>
+          <Routes>
+            <Route path={Path.Home} element={<Chat />} />
+            <Route path={Path.Chat} element={<Chat />} />
+            <Route path={Path.Settings} element={<Settings />} />
+            <Route path={Path.ChatPage} element={<Chat />} />
+          </Routes>
+        </div>
+      </>
+      {/* )} */}
     </div>
   );
 }

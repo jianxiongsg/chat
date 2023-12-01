@@ -40,7 +40,6 @@ import { copyToClipboard, downloadAs, readFromFile } from "../../utils";
 import { Updater } from "../../typing";
 import { ModelConfigList } from "../../components/ModelConfig";
 import { FileName, Path } from "../../constant";
-import { BUILTIN_MASK_STORE } from "../../masks";
 import {
   DragDropContext,
   Droppable,
