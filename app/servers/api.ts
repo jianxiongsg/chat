@@ -4,7 +4,6 @@ import { ChatGPTApi } from "./openai";
 export const ROLES = ["system", "user", "assistant"] as const;
 export type MessageRole = (typeof ROLES)[number];
 
-export const Models = ["gpt-3.5-turbo", "gpt-4"] as const;
 export type ChatModel = ModelType;
 
 export interface RequestMessage {
@@ -50,9 +49,13 @@ export class ClientApi {
   public llm: LLMApi;
 
   constructor() {
-    this.llm = new ChatGPTApi();
+    this.llm = new ChatGPTApi({
+      baseUrl: process.env.BASE_URL || "http://127.0.0.1:7001",
+    });
   }
-
+  getModels() {
+    return this.llm.models();
+  }
   config() {}
 
   prompts() {}
@@ -61,16 +64,3 @@ export class ClientApi {
 }
 
 export const api = new ClientApi();
-
-export function getHeaders() {
-  let headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    "x-requested-with": "XMLHttpRequest",
-    Accept: "text/event-stream",
-    "Access-Control-Allow-Credentials": "false",
-    "Access-Control-Allow-Headers":
-      "access-control-allow-credentials,authorization,content-type,x-requested-with",
-  };
-
-  return headers;
-}

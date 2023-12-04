@@ -1,10 +1,10 @@
 import webpack from "webpack";
 
 const mode = process.env.BUILD_MODE ?? "standalone";
-console.log("[Next] build mode", mode);
+console.log("build mode", mode);
 
 const disableChunk = !!process.env.DISABLE_CHUNK || mode === "export";
-console.log("[Next] build with chunk: ", !disableChunk);
+console.log("build with chunk: ", !disableChunk);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -64,18 +64,18 @@ if (mode !== "export") {
 
   nextConfig.rewrites = async () => {
     const ret = [
-      {
-        source: "/api/proxy/:path*",
-        destination: "https://api.openai.com/:path*",
-      },
-      {
-        source: "/google-fonts/:path*",
-        destination: "https://fonts.googleapis.com/:path*",
-      },
-      {
-        source: "/sharegpt",
-        destination: "https://sharegpt.com/api/conversations",
-      },
+      // {
+      //   source: "/api/proxy/:path*",
+      //   destination: "https://api.openai.com/:path*",
+      // },
+      // {
+      //   source: "/google-fonts/:path*",
+      //   destination: "https://fonts.googleapis.com/:path*",
+      // },
+      // {
+      //   source: "/sharegpt",
+      //   destination: "https://sharegpt.com/api/conversations",
+      // },
     ];
 
     return {
