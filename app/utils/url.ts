@@ -1,3 +1,5 @@
+import { HomePath, UserPath } from "../constant";
+
 export function toPath(
   baseUrl: string,
   route: string,
@@ -10,4 +12,16 @@ export function toPath(
     }
   }
   return url;
+}
+export function isEnumValue(enumType: any, value: any): boolean {
+  return Object.values(enumType).includes(value);
+}
+export function routePath(path: UserPath | HomePath) {
+  if (isEnumValue(UserPath, path)) {
+    return `/user/${path}`;
+  }
+  if (isEnumValue(HomePath, path)) {
+    return `/home/${path}`;
+  }
+  return path;
 }

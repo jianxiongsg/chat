@@ -23,11 +23,12 @@ import Locale, {
   changeLang,
   getLang,
 } from "../../locales";
-import { Path } from "../../constant";
+import { HomePath } from "../../constant";
 import { ErrorBoundary } from "../../components/Error/index";
 import { InputRange } from "../../components/InputRange";
 import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarPicker } from "../../components/Emoji/index";
+import { routePath } from "@/app/utils/url";
 
 export function Settings() {
   const navigate = useNavigate();
@@ -52,7 +53,7 @@ export function Settings() {
           <div className="window-action-button">
             <IconButton
               icon={<CloseIcon />}
-              onClick={() => navigate(Path.Home)}
+              onClick={() => navigate(routePath(HomePath.Chat))}
               bordered
             />
           </div>

@@ -129,7 +129,7 @@ body {
   border: 1px solid transparent;
 }
 
-select {
+#home select {
   border: var(--border-in-light);
   padding: 10px;
   border-radius: 10px;
@@ -140,16 +140,16 @@ select {
   text-align: center;
 }
 
-label {
+#home label {
   cursor: pointer;
 }
 
-input {
+#home input {
   text-align: center;
   font-family: inherit;
 }
 
-input[type="checkbox"] {
+#home input[type="checkbox"] {
   cursor: pointer;
   background-color: var(--white);
   color: var(--black);
@@ -163,7 +163,7 @@ input[type="checkbox"] {
   justify-content: center;
 }
 
-input[type="checkbox"]:checked::after {
+#home input[type="checkbox"]:checked::after {
   display: inline-block;
   width: 8px;
   height: 8px;
@@ -172,7 +172,7 @@ input[type="checkbox"]:checked::after {
   border-radius: 2px;
 }
 
-input[type="range"] {
+#home input[type="range"] {
   appearance: none;
   background-color: var(--white);
   color: var(--black);
@@ -190,15 +190,15 @@ input[type="range"] {
   border: none;
 }
 
-input[type="range"]::-webkit-slider-thumb {
+#home input[type="range"]::-webkit-slider-thumb {
   @include thumb();
 }
 
-input[type="range"]::-moz-range-thumb {
+#home input[type="range"]::-moz-range-thumb {
   @include thumb();
 }
 
-input[type="range"]::-ms-thumb {
+#home input[type="range"]::-ms-thumb {
   @include thumb();
 }
 
@@ -207,21 +207,21 @@ input[type="range"]::-ms-thumb {
   width: 24px;
 }
 
-input[type="range"]::-webkit-slider-thumb:hover {
+#home input[type="range"]::-webkit-slider-thumb:hover {
   @include thumbHover();
 }
 
-input[type="range"]::-moz-range-thumb:hover {
+#home input[type="range"]::-moz-range-thumb:hover {
   @include thumbHover();
 }
 
-input[type="range"]::-ms-thumb:hover {
+#home input[type="range"]::-ms-thumb:hover {
   @include thumbHover();
 }
 
-input[type="number"],
-input[type="text"],
-input[type="password"] {
+#home input[type="number"],
+#home input[type="text"],
+#home input[type="password"] {
   appearance: none;
   border-radius: 10px;
   border: var(--border-in-light);
@@ -234,7 +234,7 @@ input[type="password"] {
   font-family: inherit;
 }
 
-div.math {
+#home div.math {
   overflow-x: auto;
 }
 
@@ -265,7 +265,7 @@ div.math {
   }
 }
 
-pre {
+#home pre {
   position: relative;
 
   &:hover .copy-code-button {

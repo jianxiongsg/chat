@@ -33,13 +33,14 @@ import { useEffect, useState } from "react";
 import { copyToClipboard } from "../../utils/utils";
 import { Updater } from "../../typings/typing";
 import { ModelConfigList } from "../../components/ModelConfig";
-import { FileName, Path } from "../../constant";
+import { FileName, HomePath } from "../../constant";
 import {
   DragDropContext,
   Droppable,
   Draggable,
   OnDragEndResponder,
 } from "@hello-pangea/dnd";
+import { routePath } from "@/app/utils/url";
 
 // drag and drop helper function
 function reorder<T>(list: T[], startIndex: number, endIndex: number): T[] {
@@ -71,7 +72,9 @@ export function MaskConfig(props: {
   };
 
   const copyMaskLink = () => {
-    const maskLink = `${location.protocol}//${location.host}/#${Path.NewChat}?mask=${props.mask.id}`;
+    const maskLink = `${location.protocol}//${location.host}/#${routePath(
+      HomePath.Chat,
+    )}?mask=${props.mask.id}`;
     copyToClipboard(maskLink);
   };
 

@@ -80,22 +80,6 @@ export function List(props: {
   return <div className={styles.list}>{props.children}</div>;
 }
 
-export function Loading() {
-  return (
-    <div
-      style={{
-        height: "100vh",
-        width: "100vw",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
-    >
-      <LoadingIcon />
-    </div>
-  );
-}
-
 interface ModalProps {
   title: string;
   children?: any;

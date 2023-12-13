@@ -1,11 +1,21 @@
 export enum Path {
-  Home = "/",
-  Chat = "/chat",
-  Settings = "/settings",
-  NewChat = "/new-chat",
-  Masks = "/masks",
-  Auth = "/auth",
-  ChatPage = "/chatPage",
+  Main = "/",
+  Home = "/home/*",
+  User = "/user/*",
+}
+export enum HomePath {
+  Main = "",
+  Chat = "chat",
+  Settings = "settings",
+  NewChat = "new-chat",
+  Masks = "masks",
+  ChatPage = "chatPage",
+}
+export enum UserPath {
+  User = "",
+  Login = "login",
+  Register = "register",
+  ForgetPassword = "forgetPassword",
 }
 
 export enum ApiPath {

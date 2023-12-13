@@ -43,8 +43,8 @@ import { showPrompt } from "../../components/UiLib";
 import { useNavigate } from "react-router-dom";
 import {
   CHAT_PAGE_SIZE,
+  HomePath,
   LAST_INPUT_KEY,
-  Path,
   REQUEST_TIMEOUT_MS,
 } from "../../constant";
 import { prettyObject } from "../../utils/format";
@@ -54,6 +54,7 @@ import { ChatActions } from "./components/ChatActions";
 import PromptToast from "./components/PromptToast";
 import { useScrollToBottom } from "@/app/hooks/useScrollToBottom";
 import { ClearContextDivider } from "./components/ClearContextDivider";
+import { routePath } from "@/app/utils/url";
 
 const Markdown = dynamic(
   async () => (await import("./components/Markdown/index")).Markdown,
@@ -335,7 +336,7 @@ function _Chat() {
                 icon={<ReturnIcon />}
                 bordered
                 title={Locale.Chat.Actions.ChatList}
-                onClick={() => navigate(Path.Home)}
+                onClick={() => navigate(routePath(HomePath.Chat))}
               />
             </div>
           </div>

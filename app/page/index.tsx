@@ -2,23 +2,21 @@
 
 require("../utils/polyfill");
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 
-import styles from "./home.module.scss";
-
-import BotIcon from "../components/Icons/bot.svg";
-import LoadingIcon from "../components/Icons/three-dots.svg";
+import styles from "./index.module.scss";
 
 import { getCSSVar, useMobileScreen } from "../utils/utils";
 
 import dynamic from "next/dynamic";
-import { Path, SlotID } from "../constant";
+import { HomePath, Path, SlotID } from "../constant";
 import { ErrorBoundary } from "../components/Error/index";
 
 import { getISOLang, getLang } from "../locales";
 
 import {
   HashRouter as Router,
+  // BrowserRouter,
   Routes,
   Route,
   useLocation,
@@ -30,15 +28,7 @@ import { useSwitchTheme } from "../hooks/useSwitchTheme";
 import { useLoadData } from "../hooks/useLoadData";
 import { useHtmlLang } from "../hooks/useHtmlLang";
 import { useHasHydrated } from "../hooks/useHasHydrated";
-
-export function Loading(props: { noLogo?: boolean }) {
-  return (
-    <div className={styles["loading-content"] + " no-dark"}>
-      {!props.noLogo && <BotIcon />}
-      <LoadingIcon />
-    </div>
-  );
-}
+import { Loading } from "../components/Loading";
 
 const Settings = dynamic(
   async () => (await import("./settings/index")).Settings,
@@ -47,54 +37,50 @@ const Settings = dynamic(
   },
 );
 
-const Chat = dynamic(async () => (await import("../page/chat")).Chat, {
+const Chat = dynamic(async () => (await import("./chat")).Chat, {
   loading: () => <Loading noLogo />,
 });
-
-function Screen() {
-  const config = useAppConfig();
-  const location = useLocation();
-  const isHome = location.pathname === Path.Home;
-  // const isAuth = location.pathname === Path.Auth;
-  const isMobileScreen = useMobileScreen();
-  const shouldTightBorder = config.tightBorder && !isMobileScreen;
-
-  return (
-    <div
-      className={
-        styles.container +
-        ` ${shouldTightBorder ? styles["tight-container"] : styles.container} ${
-          getLang() === "ar" ? styles["rtl-screen"] : ""
-        }`
-      }
-    >
-      {/* {isAuth ? (
-        <>
-          <AuthPage />
-        </>
-      ) : ( */}
-      <>
-        <SideBar className={isHome ? styles["sidebar-show"] : ""} />
-
-        <div className={styles["window-content"]} id={SlotID.AppBody}>
-          <Routes>
-            <Route path={Path.Home} element={<Chat />} />
-            <Route path={Path.Chat} element={<Chat />} />
-            <Route path={Path.Settings} element={<Settings />} />
-            <Route path={Path.ChatPage} element={<Chat />} />
-          </Routes>
-        </div>
-      </>
-      {/* )} */}
-    </div>
-  );
-}
+const User = dynamic(async () => (await import("./user")).User, {
+  loading: () => <Loading noLogo />,
+});
 
 export function Home() {
   useSwitchTheme();
   useLoadData();
   useHtmlLang();
+  const config = useAppConfig();
+  const location = useLocation();
+  const isHome = location.pathname === Path.Home;
+  const isMobileScreen = useMobileScreen();
+  const shouldTightBorder = config.tightBorder && !isMobileScreen;
 
+  return (
+    <Fragment>
+      <div
+        id="home"
+        className={
+          styles.container +
+          ` ${
+            shouldTightBorder ? styles["tight-container"] : styles.container
+          } ${getLang() === "ar" ? styles["rtl-screen"] : ""}`
+        }
+      >
+        <SideBar className={isHome ? styles["sidebar-show"] : ""} />
+
+        <div className={styles["window-content"]} id={SlotID.AppBody}>
+          <Routes>
+            <Route path={HomePath.Main} element={<Chat />} />
+            <Route path={HomePath.Chat} element={<Chat />} />
+            <Route path={HomePath.Settings} element={<Settings />} />
+            <Route path={HomePath.ChatPage} element={<Chat />} />
+          </Routes>
+        </div>
+      </div>
+    </Fragment>
+  );
+}
+
+export function Main() {
   // 首次进需要loading
   if (!useHasHydrated()) {
     return <Loading />;
@@ -103,7 +89,11 @@ export function Home() {
   return (
     <ErrorBoundary>
       <Router>
-        <Screen />
+        <Routes>
+          <Route path={Path.Main} element={<User />} />
+          <Route path={Path.User} element={<User />} />
+          <Route path={Path.Home} element={<Home />} />
+        </Routes>
       </Router>
     </ErrorBoundary>
   );

@@ -6,8 +6,9 @@ import { useNavigate } from "react-router-dom";
 import Locale from "../../../../locales";
 import ResetIcon from "../../../../components/Icons/reload.svg";
 import CopyIcon from "../../../../components/Icons/copy.svg";
-import { Path } from "@/app/constant";
+import { HomePath } from "@/app/constant";
 import { MaskConfig } from "@/app/components/Mask/index";
+import { routePath } from "@/app/utils/url";
 
 export function SessionConfigModel(props: { onClose: () => void }) {
   const chatStore = useChatStore();
@@ -40,7 +41,7 @@ export function SessionConfigModel(props: { onClose: () => void }) {
             bordered
             text={Locale.Chat.Config.SaveAs}
             onClick={() => {
-              navigate(Path.Masks);
+              navigate(routePath(HomePath.Masks));
               setTimeout(() => {
                 maskStore.create(session.mask);
               }, 500);

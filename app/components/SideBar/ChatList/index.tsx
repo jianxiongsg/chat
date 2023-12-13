@@ -12,11 +12,12 @@ import { useChatStore } from "../../../store";
 
 import Locale from "../../../locales";
 import { Link, useNavigate } from "react-router-dom";
-import { Path } from "../../../constant";
+import { HomePath } from "../../../constant";
 import { Mask } from "../../../store/mask";
 import { useRef, useEffect } from "react";
 import { showConfirm } from "../../UiLib";
 import { MaskAvatar } from "../../Emoji";
+import { routePath } from "@/app/utils/url";
 
 export function ChatItem(props: {
   onClick?: () => void;
@@ -136,7 +137,7 @@ export function ChatList(props: { narrow?: boolean }) {
                 index={i}
                 selected={i === selectedIndex}
                 onClick={() => {
-                  navigate(Path.Chat);
+                  navigate(routePath(HomePath.Chat));
                   selectSession(i);
                 }}
                 onDelete={async () => {

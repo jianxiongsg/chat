@@ -14,10 +14,10 @@ import { useAppConfig, useChatStore } from "../../store";
 
 import {
   DEFAULT_SIDEBAR_WIDTH,
+  HomePath,
   MAX_SIDEBAR_WIDTH,
   MIN_SIDEBAR_WIDTH,
   NARROW_SIDEBAR_WIDTH,
-  Path,
 } from "../../constant";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -25,6 +25,7 @@ import { isIOS, useMobileScreen } from "../../utils/utils";
 import dynamic from "next/dynamic";
 import { showConfirm, showToast } from "../UiLib";
 import { IconButton } from "../BaseButton/index";
+import { routePath } from "@/app/utils/url";
 
 const ChatList = dynamic(async () => (await import("./ChatList")).ChatList, {
   loading: () => null,
@@ -168,7 +169,7 @@ export function SideBar(props: { className?: string }) {
         className={styles["sidebar-body"]}
         onClick={(e) => {
           if (e.target === e.currentTarget) {
-            navigate(Path.Home);
+            navigate(routePath(HomePath.Chat));
           }
         }}
       >
@@ -188,7 +189,7 @@ export function SideBar(props: { className?: string }) {
             />
           </div>
           <div className={styles["sidebar-action"]}>
-            <Link to={Path.Settings}>
+            <Link to={routePath(HomePath.Settings)}>
               <IconButton icon={<SettingsIcon />} shadow />
             </Link>
           </div>
@@ -199,7 +200,7 @@ export function SideBar(props: { className?: string }) {
             text={shouldNarrow ? undefined : Locale.Home.NewChat}
             onClick={() => {
               chatStore.newSession();
-              navigate(Path.Chat);
+              navigate(routePath(HomePath.Chat));
             }}
             shadow
           />
