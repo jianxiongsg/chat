@@ -43,7 +43,7 @@ const Register = () => {
         >
           <Input placeholder="请输入用户名" />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="phoneNumber"
           rules={[
             { required: true, message: "请输入手机号" },
@@ -54,8 +54,8 @@ const Register = () => {
           ]}
         >
           <Input placeholder="请输入手机号" onChange={handlePhoneChange} />
-        </Form.Item>
-        <div className={styles["verificationArea"]}>
+        </Form.Item> */}
+        {/* <div className={styles["verificationArea"]}>
           <Form.Item
             name="verificationCode"
             className={styles["verificationCode"]}
@@ -73,18 +73,12 @@ const Register = () => {
               发送验证码
             </Button>
           </Form.Item>
-        </div>
+        </div> */}
         <Form.Item
           name="password"
           rules={[
             { required: true, message: "请输入密码" },
             { min: 6, message: "密码最少6位" },
-            {
-              pattern:
-                /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
-              message:
-                "密码需包含至少1个大写字母、1个小写字母、1个数字和1个特殊字符",
-            },
           ]}
         >
           <Input.Password placeholder="请输入密码" />
@@ -99,7 +93,7 @@ const Register = () => {
           </Button>
         </Form.Item>
         <div className={styles["toRouter"]}>
-          <Link to="/user/forgetPassword">忘记密码</Link>
+          {/* <Link to="/user/forgetPassword">忘记密码</Link> */}
           <span>
             已有账号?<Link to="/user/login">马上登录</Link>
           </span>
