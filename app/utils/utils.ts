@@ -214,3 +214,9 @@ export function isMacOS(): boolean {
   }
   return false;
 }
+
+// 加密
+export const encrypt = (value: string): string => btoa(value);
+
+// 解密
+export const decrypt = (value: string): string => atob(value);

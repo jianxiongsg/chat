@@ -1,4 +1,6 @@
 import { ModelType } from "../store";
+import { toPath } from "../utils/url";
+import { MethodType, mtopGet, mtopPost } from "./mtop";
 import { ChatGPTApi } from "./openai";
 
 export const ROLES = ["system", "user", "assistant"] as const;
@@ -47,11 +49,24 @@ export abstract class LLMApi {
 
 export class ClientApi {
   public llm: LLMApi;
+  public baseUrl: string;
 
   constructor() {
+    this.baseUrl = process.env.BASE_URL || "http://127.0.0.1:7001";
     this.llm = new ChatGPTApi({
-      baseUrl: process.env.BASE_URL || "http://127.0.0.1:7001",
+      baseUrl: this.baseUrl,
     });
+  }
+
+  async register(info) {
+    const pathUrl = toPath(this.baseUrl, "register").href;
+    console.log("......pathUrl", pathUrl);
+    const res = await mtopPost({
+      routePath: "register",
+      data: info,
+    });
+
+    return res;
   }
 
   getModels() {

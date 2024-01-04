@@ -2,14 +2,21 @@ import React, { useState } from "react";
 import { Input, Button, Form } from "antd";
 import { Link } from "react-router-dom";
 import styles from "../index.module.scss";
+import { api } from "@/app/servers/api";
 
 const Register = () => {
   const [form] = Form.useForm();
   const [isCodeButtonDisabled, setIsCodeButtonDisabled] = useState(true);
 
-  const handleSubmit = (values: any) => {
+  const handleSubmit = async (values: any) => {
     // 验证通过后的处理逻辑，可以将表单数据存储至React Redux和localStorage
-    console.log(values);
+    try {
+      console.log("handleSubmit", values);
+      const res = await api.register(values);
+      const resJson = await res.json();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handlePhoneChange = (e) => {
@@ -34,7 +41,7 @@ const Register = () => {
           name="username"
           rules={[
             { required: true, message: "请输入用户名" },
-            { max: 6, message: "用户名不超过6位" },
+            { max: 16, message: "用户名不超过6位" },
             {
               pattern: /^(?:\d+|[a-zA-Z]+|[a-zA-Z\d]+)$/i,
               message: "用户名为纯数字、纯英文字母或数字与英文字母组合",

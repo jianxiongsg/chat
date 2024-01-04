@@ -8,18 +8,8 @@ import {
   EventStreamContentType,
   fetchEventSource,
 } from "@fortaine/fetch-event-source";
-import { toPath } from "../utils/url";
-function getHeaders() {
-  let headers: Record<string, string> = {
-    "Content-Type": "application/json",
-    "x-requested-with": "XMLHttpRequest",
-    "Access-Control-Allow-Credentials": "false",
-    "Access-Control-Allow-Headers":
-      "access-control-allow-credentials,authorization,content-type,x-requested-with",
-  };
+import { MethodType, mtopGet, mtopPost, mtopStream } from "./mtop";
 
-  return headers;
-}
 export interface OpenAIListModelResponse {
   object: string;
   data: Array<{
@@ -73,13 +63,6 @@ export class ChatGPTApi implements LLMApi {
     options.onController?.(controller);
 
     try {
-      const chatPayload = {
-        method: "POST",
-        body: JSON.stringify(requestPayload),
-        signal: controller.signal,
-        headers: getHeaders(),
-        // keepAlive: true
-      };
       // make a fetch request
       const requestTimeoutId = setTimeout(
         () => controller.abort(),
@@ -98,9 +81,11 @@ export class ChatGPTApi implements LLMApi {
         };
 
         controller.signal.onabort = finish;
-        const pathUrl = toPath(this.baseUrl, "chat").href;
-        fetchEventSource(pathUrl, {
-          ...chatPayload,
+        mtopStream({
+          method: MethodType.POST,
+          data: requestPayload,
+          signal: controller.signal,
+          routePath: "chat",
           async onopen(res) {
             clearTimeout(requestTimeoutId);
             const contentType = res.headers.get("content-type");
@@ -171,8 +156,10 @@ export class ChatGPTApi implements LLMApi {
           openWhenHidden: true,
         });
       } else {
-        const pathUrl = toPath(this.baseUrl, "chat").href;
-        const res = await fetch(pathUrl, chatPayload);
+        const res = await mtopPost({
+          data: requestPayload,
+          routePath: "chat",
+        });
         clearTimeout(requestTimeoutId);
 
         const resJson = await res.json();
@@ -189,12 +176,9 @@ export class ChatGPTApi implements LLMApi {
     if (this.disableListModels) {
       return DEFAULT_MODELS.slice();
     }
-    const pathUrl = toPath(this.baseUrl, "models").href;
-    const res = await fetch(pathUrl, {
-      method: "GET",
-      headers: {
-        ...getHeaders(),
-      },
+    const res = await mtopGet({
+      data: {},
+      routePath: "models",
     });
     const resJson = (await res.json()) as OpenAIListModelResponse;
     const chatModels = resJson.data?.filter((m) => m.id.startsWith("gpt-"));
