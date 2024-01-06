@@ -59,10 +59,17 @@ export class ClientApi {
   }
 
   async register(info) {
-    const pathUrl = toPath(this.baseUrl, "register").href;
-    console.log("......pathUrl", pathUrl);
     const res = await mtopPost({
       routePath: "register",
+      data: info,
+    });
+
+    return res;
+  }
+
+  async login(info) {
+    const res = await mtopPost({
+      routePath: "login",
       data: info,
     });
 

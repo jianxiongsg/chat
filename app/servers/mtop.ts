@@ -7,10 +7,7 @@ import {
 
 export const DEFAULT_HEADER = {
   "Content-Type": "application/json",
-  "x-requested-with": "XMLHttpRequest",
-  "Access-Control-Allow-Credentials": "false",
-  "Access-Control-Allow-Headers":
-    "access-control-allow-credentials,authorization,content-type,x-requested-with",
+  // "x-requested-with": "XMLHttpRequest",
 };
 export enum MethodType {
   POST = "POST",
@@ -36,6 +33,7 @@ export async function mtopPost(reqParams: ReqParams) {
   const pathUrl = toPath(BASE_URL, routePath).href;
   const res = await fetch(pathUrl, {
     method: MethodType.POST,
+    credentials: "include",
     body: JSON.stringify(data),
     headers: {
       ...DEFAULT_HEADER,

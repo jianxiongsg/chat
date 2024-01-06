@@ -14,6 +14,7 @@ const Register = () => {
       console.log("handleSubmit", values);
       const res = await api.register(values);
       const resJson = await res.json();
+      console.log("res", resJson);
     } catch (error) {
       console.log(error);
     }
@@ -38,10 +39,10 @@ const Register = () => {
       >
         <h2 className={styles["h2"]}>用户注册</h2>
         <Form.Item
-          name="username"
+          name="userName"
           rules={[
             { required: true, message: "请输入用户名" },
-            { max: 16, message: "用户名不超过6位" },
+            { max: 16, message: "用户名不超过16位" },
             {
               pattern: /^(?:\d+|[a-zA-Z]+|[a-zA-Z\d]+)$/i,
               message: "用户名为纯数字、纯英文字母或数字与英文字母组合",
