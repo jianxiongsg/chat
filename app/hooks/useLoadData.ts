@@ -8,7 +8,7 @@ export function useLoadData() {
   useEffect(() => {
     (async () => {
       // chatGpt模板
-      const models = await api.llm.models();
+      const models = await api.getModels();
       config.mergeModels(models);
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

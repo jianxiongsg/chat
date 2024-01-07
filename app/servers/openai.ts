@@ -9,6 +9,7 @@ import {
   fetchEventSource,
 } from "@fortaine/fetch-event-source";
 import { MethodType, mtopGet, mtopPost, mtopStream } from "./mtop";
+import { WebError } from "../utils/response";
 
 export interface OpenAIListModelResponse {
   object: string;
@@ -162,8 +163,7 @@ export class ChatGPTApi implements LLMApi {
         });
         clearTimeout(requestTimeoutId);
 
-        const resJson = await res.json();
-        const message = this.extractMessage(resJson);
+        const message = this.extractMessage(res);
         options.onFinish(message);
       }
     } catch (e) {
@@ -176,12 +176,15 @@ export class ChatGPTApi implements LLMApi {
     if (this.disableListModels) {
       return DEFAULT_MODELS.slice();
     }
+
     const res = await mtopGet({
       data: {},
       routePath: "models",
     });
-    const resJson = (await res.json()) as OpenAIListModelResponse;
-    const chatModels = resJson.data?.filter((m) => m.id.startsWith("gpt-"));
+    if (!res.ok) {
+      return [];
+    }
+    const chatModels = res.data?.filter((m) => m.id.startsWith("gpt-"));
     // console.log("[Models]", resJson, chatModels);
 
     if (!chatModels) {

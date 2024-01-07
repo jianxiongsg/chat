@@ -7,7 +7,7 @@ import {
 
 export const DEFAULT_HEADER = {
   "Content-Type": "application/json",
-  // "x-requested-with": "XMLHttpRequest",
+  "x-requested-with": "XMLHttpRequest",
 };
 export enum MethodType {
   POST = "POST",
@@ -28,6 +28,11 @@ export interface StreamReqParams extends ReqParams {
   openWhenHidden?: boolean;
 }
 const BASE_URL = process.env.BASE_URL || "http://127.0.0.1:7001";
+function checkLogin(info) {
+  if (info?.code === "NEED_LOGIN") {
+    window.location.href = "http://127.0.0.1:3000/#/user/login";
+  }
+}
 export async function mtopPost(reqParams: ReqParams) {
   const { routePath, data, headers } = reqParams;
   const pathUrl = toPath(BASE_URL, routePath).href;
@@ -40,6 +45,8 @@ export async function mtopPost(reqParams: ReqParams) {
       ...(headers || {}),
     },
   });
+  const resJson = await res.json();
+  checkLogin(resJson);
   return res;
 }
 
@@ -48,12 +55,15 @@ export async function mtopGet(reqParams: ReqParams) {
   const pathUrl = toPath(BASE_URL, routePath, data).href;
   const res = await fetch(pathUrl, {
     method: MethodType.GET,
+    credentials: "include",
     headers: {
       ...DEFAULT_HEADER,
       ...(headers || {}),
     },
   });
-  return res;
+  const resJson = await res.json();
+  checkLogin(resJson);
+  return resJson;
 }
 
 export async function mtopStream(reqParams: StreamReqParams) {
@@ -62,6 +72,7 @@ export async function mtopStream(reqParams: StreamReqParams) {
   fetchEventSource(pathUrl, {
     method,
     body: JSON.stringify(data),
+    credentials: "include",
     headers: {
       ...DEFAULT_HEADER,
       ...(headers || {}),

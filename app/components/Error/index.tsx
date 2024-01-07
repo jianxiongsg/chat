@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { IconButton } from "../BaseButton";
 import ResetIcon from "../Icons/reload.svg";
 import Locale from "../../locales";
 import { showConfirm } from "../UiLib";
+import { useNavigate } from "react-router-dom";
 
 interface IErrorBoundaryState {
   hasError: boolean;
@@ -18,6 +19,7 @@ export class ErrorBoundary extends React.Component<any, IErrorBoundaryState> {
 
   componentDidCatch(error: Error, info: React.ErrorInfo) {
     // Update state with error details
+    console.log("componentDidCatch", error);
     this.setState({ hasError: true, error, info });
   }
 

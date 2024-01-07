@@ -1,12 +1,14 @@
 import React from "react";
 import { Input, Button, Form } from "antd";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import styles from "../index.module.scss";
 import { api } from "@/app/servers/api";
+import { routePath } from "@/app/utils/url";
+import { HomePath } from "@/app/constant";
 
 const Login = () => {
   const [form] = Form.useForm();
-
+  const navigate = useNavigate();
   const handleSubmit = async (values: any) => {
     // 验证通过后的处理逻辑，可以将表单数据存储至React Redux和localStorage
     console.log(values);
@@ -14,8 +16,8 @@ const Login = () => {
     try {
       console.log("handleLogin", values);
       const res = await api.login(values);
-      const resJson = await res.json();
-      console.log(resJson);
+      navigate(routePath(HomePath.Chat));
+      console.log(res);
     } catch (error) {
       console.log(error);
     }

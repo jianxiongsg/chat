@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { Input, Button, Form } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styles from "../index.module.scss";
 import { api } from "@/app/servers/api";
+import { routePath } from "@/app/utils/url";
+import { UserPath } from "@/app/constant";
 
 const Register = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const [isCodeButtonDisabled, setIsCodeButtonDisabled] = useState(true);
 
   const handleSubmit = async (values: any) => {
@@ -13,8 +16,8 @@ const Register = () => {
     try {
       console.log("handleSubmit", values);
       const res = await api.register(values);
-      const resJson = await res.json();
-      console.log("res", resJson);
+      navigate(routePath(UserPath.Login));
+      console.log("res", res);
     } catch (error) {
       console.log(error);
     }
