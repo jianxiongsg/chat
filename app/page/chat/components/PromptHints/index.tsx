@@ -1,11 +1,9 @@
-import { Prompt } from "@/app/store/prompt";
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./index.module.scss";
-export type RenderPompt = Pick<Prompt, "title" | "content">;
 /** 快捷指令*/
 export function PromptHints(props: {
-  prompts: RenderPompt[];
-  onPromptSelect: (prompt: RenderPompt) => void;
+  prompts: any[];
+  onPromptSelect: (prompt: any) => void;
 }) {
   const noPrompts = props.prompts.length === 0;
   const [selectIndex, setSelectIndex] = useState(0);
