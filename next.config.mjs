@@ -1,7 +1,10 @@
 import webpack from "webpack";
 
-const mode = process.env.BUILD_MODE ?? "export";
+const mode = process.env.BUILD_MODE ?? "standalone";
 console.log("build mode", mode);
+
+// const disableChunk = !!process.env.DISABLE_CHUNK || mode === "export";
+// console.log("build with chunk: ", !disableChunk);
 
 
 /** @type {import('next').NextConfig} */
@@ -12,7 +15,11 @@ const nextConfig = {
       use: ["@svgr/webpack"],
     });
 
-
+    // if (disableChunk) {
+    //   config.plugins.push(
+    //     new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+    //   );
+    // }
 
     config.resolve.fallback = {
       child_process: false,
@@ -22,12 +29,12 @@ const nextConfig = {
   },
   output: mode,
   images: {
-    unoptimized: false,
+    unoptimized: mode === "export",
   },
   experimental: {
     forceSwcTransforms: true,
   },
-  assetPrefix: process.env.ASSET_PREFIX || './', // 确保在构建时设置环境变量
+  // assetPrefix: process.env.ASSET_PREFIX || './', // 确保在构建时设置环境变量
   // basePath: './'
   // 国际化配置
   // i18n: {
