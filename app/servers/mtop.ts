@@ -27,10 +27,10 @@ export interface StreamReqParams extends ReqParams {
   onerror?: (err: any) => number | void;
   openWhenHidden?: boolean;
 }
-const BASE_URL = process.env.BASE_URL || "http://127.0.0.1:7001";
+const BASE_URL = "https://www.mygoodchatgpt.com:7000"; //process.env.BASE_URL || "http://127.0.0.1:7001";
 function checkLogin(info) {
   if (info?.code === "NEED_LOGIN") {
-    window.location.href = "http://127.0.0.1:3000/#/user/login";
+    window.location.href = window.location.origin + "/#/user/login";
   }
 }
 export async function mtopPost(reqParams: ReqParams) {

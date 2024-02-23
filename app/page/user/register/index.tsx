@@ -64,13 +64,13 @@ const Register = () => {
         >
           <Input.Password placeholder="请输入密码" />
         </Form.Item>
-        <Form.Item
+        {/* <Form.Item
           name="inviteCode"
           rules={[{ required: true, message: "请输入邀请码" }]}
         >
           <Input placeholder="请输入邀请码" />
-        </Form.Item>
-        <Form.Item
+        </Form.Item> */}
+        {/* <Form.Item
           name="phoneNumber"
           rules={[
             { required: true, message: "请输入手机号" },
@@ -81,8 +81,8 @@ const Register = () => {
           ]}
         >
           <Input placeholder="请输入手机号" onChange={handlePhoneChange} />
-        </Form.Item>
-        <div className={styles["verificationArea"]}>
+        </Form.Item> */}
+        {/* <div className={styles["verificationArea"]}>
           <Form.Item
             name="verificationCode"
             className={styles["verificationCode"]}
@@ -100,7 +100,7 @@ const Register = () => {
               发送验证码
             </Button>
           </Form.Item>
-        </div>
+        </div> */}
         <Form.Item>
           <Button
             type="primary"
