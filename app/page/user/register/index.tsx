@@ -64,12 +64,12 @@ const Register = () => {
         >
           <Input.Password placeholder="请输入密码" />
         </Form.Item>
-        {/* <Form.Item
+        <Form.Item
           name="inviteCode"
           rules={[{ required: true, message: "请输入邀请码" }]}
         >
           <Input placeholder="请输入邀请码" />
-        </Form.Item> */}
+        </Form.Item>
         {/* <Form.Item
           name="phoneNumber"
           rules={[

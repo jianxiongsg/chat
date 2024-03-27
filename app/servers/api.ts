@@ -52,7 +52,7 @@ export class ClientApi {
   public baseUrl: string;
 
   constructor() {
-    this.baseUrl = process.env.BASE_URL || "http://127.0.0.1:7001";
+    this.baseUrl = process.env.BASE_URL || "http://43.142.51.24:7001";
     this.llm = new ChatGPTApi({
       baseUrl: this.baseUrl,
     });
